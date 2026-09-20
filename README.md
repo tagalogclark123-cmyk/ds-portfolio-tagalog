@@ -13,6 +13,7 @@ Lab reports on neural networks and deep learning with PyTorch, published as a
 | 3 | Forward and backward propagation |
 | 4 | PyTorch linear regression |
 | 5 | PyTorch tensor fundamentals |
+| 6 | CNN architecture diagram to PyTorch |
 
 ## Build locally
 
@@ -32,5 +33,7 @@ ghp-import -n -p -f _build/html
 - `_config.yml`: book settings (title, theme options, buttons)
 - `_toc.yml`: sidebar structure and page titles
 - `_static/`: custom CSS, logo, favicon, link-preview image
-- `intro.md`: home page
+- `intro.md`: home page (bio + lab cards)
+- `figures/`: images used by notebooks (copied into the site automatically)
+- `_ext/`: tiny helper that copies `figures/` into the built site
 - `Lab_Task_*.ipynb`: the lab notebooks (outputs are shown as saved)

@@ -5,8 +5,13 @@
 #  • `title:` overrides the label shown in the sidebar and the prev/next links
 #    (the notebooks themselves are untouched).
 #  • `caption:` adds a heading above a group of pages in the sidebar.
-#  • To add a new lab: copy one `- file:` line, change the filename (no .ipynb)
-#    and give it a title.
+#
+#  ADDING A NEW NOTEBOOK
+#    1. Put the .ipynb in the project folder (images go in figures/).
+#    2. Add a `- file:` line below: filename WITHOUT ".ipynb", plus a `title:`.
+#       Put it under an existing part, or start a new part with `- caption:`.
+#    3. Add a card for it in intro.md (there is a how-to comment there).
+#  A notebook that is not listed here is NOT built (only_build_toc_files).
 # ═══════════════════════════════════════════════════════════════════════════
 
 format: jb-book
@@ -26,3 +31,8 @@ parts:
         title: "Lab 4 · PyTorch Regression"
       - file: Lab_Task_5_PyTorch_Tensor_Fundamentals
         title: "Lab 5 · Tensor Fundamentals"
+
+  - caption: Convolutional Neural Networks
+    chapters:
+      - file: Lab_Activity_6_CNN_Architecture
+        title: "Lab 6 · CNN Architecture"

@@ -6,7 +6,7 @@
 
 # ── Identity ───────────────────────────────────────────────────────────────
 title: Data Science Portfolio
-author: Clark Tagalog
+author: Clark James E. Tagalog
 copyright: "2026"
 logo: _static/logo.svg
 
@@ -17,6 +17,7 @@ only_build_toc_files: true
 exclude_patterns:
   - README.md
   - .github/*
+  - _ext/*
   - _build/*
   - "**.ipynb_checkpoints"
 
@@ -85,6 +86,8 @@ sphinx:
   recursive_update: true
   extra_extensions:
     - sphinxext.opengraph          # rich link previews (LinkedIn, Slack, …)
+  local_extensions:
+    copy_figures: _ext             # copies ./figures into the site (see _ext/copy_figures.py)
   config:
     # Use each notebook's own metadata "title" as the page title.
     # (Your notebooks have no top-level "# Heading", so without this every page
