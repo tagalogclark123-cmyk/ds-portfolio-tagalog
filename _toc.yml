@@ -1,9 +1,28 @@
-# Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
+# ═══════════════════════════════════════════════════════════════════════════
+#  Table of contents
+#  Reference: https://jupyterbook.org/en/stable/structure/toc.html
+#
+#  • `title:` overrides the label shown in the sidebar and the prev/next links
+#    (the notebooks themselves are untouched).
+#  • `caption:` adds a heading above a group of pages in the sidebar.
+#  • To add a new lab: copy one `- file:` line, change the filename (no .ipynb)
+#    and give it a title.
+# ═══════════════════════════════════════════════════════════════════════════
 
 format: jb-book
 root: intro
-chapters:
-- file: markdown
-- file: notebooks
-- file: markdown-notebooks
+
+parts:
+  - caption: Neural Network Foundations
+    chapters:
+      - file: Lab_Task_2_Forward_Pass_and_Error
+        title: "Lab 2 · Forward Pass & Error"
+      - file: Lab_Task_3_Forward_and_Backward_Propagation
+        title: "Lab 3 · Forward & Backward Propagation"
+
+  - caption: Deep Learning with PyTorch
+    chapters:
+      - file: Lab_Task_4_PyTorch_Regression
+        title: "Lab 4 · PyTorch Regression"
+      - file: Lab_Task_5_PyTorch_Tensor_Fundamentals
+        title: "Lab 5 · Tensor Fundamentals"

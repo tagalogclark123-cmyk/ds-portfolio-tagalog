@@ -1,32 +1,130 @@
-# Book settings
-# Learn more at https://jupyterbook.org/customize/config.html
+# ═══════════════════════════════════════════════════════════════════════════
+#  Data Science Portfolio — Jupyter Book configuration
+#  Reference: https://jupyterbook.org/en/stable/customize/config.html
+#  (Built for Jupyter Book 1.x — v2 uses a different config format.)
+# ═══════════════════════════════════════════════════════════════════════════
 
-title: My sample book
-author: The Jupyter Book Community
-logo: logo.png
+# ── Identity ───────────────────────────────────────────────────────────────
+title: Data Science Portfolio
+author: Clark Tagalog
+copyright: "2026"
+logo: _static/logo.svg
 
-# Force re-execution of notebooks on each build.
-# See https://jupyterbook.org/content/execute.html
+# Only build the pages listed in _toc.yml. Anything else in the folder
+# (e.g. the sample markdown.md / markdown-notebooks.md) is ignored instead of
+# producing "document isn't included in any toctree" warnings.
+only_build_toc_files: true
+exclude_patterns:
+  - README.md
+  - .github/*
+  - _build/*
+  - "**.ipynb_checkpoints"
+
+# ── Notebook execution ─────────────────────────────────────────────────────
+# "off"   → show the outputs already saved inside each .ipynb (fast, and the
+#           book always matches what you ran locally). Recommended here.
+# "cache" → re-run a notebook only when its content changes (needs numpy,
+#           pandas, scikit-learn, torch, matplotlib installed).
+# "force" → re-run every notebook on every build (slow: Lab 4 trains 1000 epochs).
 execute:
-  execute_notebooks: force
+  execute_notebooks: "off"
+  timeout: 300
+  allow_errors: false
 
-# Define the name of the latex output file for PDF builds
+# ── PDF export (jupyter-book build --builder pdflatex) ─────────────────────
 latex:
   latex_documents:
-    targetname: book.tex
+    targetname: data-science-portfolio.tex
 
-# Add a bibtex file so that we can create citations
+# ── Citations ──────────────────────────────────────────────────────────────
+# Kept so you can use {cite}`key` in any page later.
+# (Remove this block if you delete references.bib.)
 bibtex_bibfiles:
   - references.bib
 
-# Information about where the book exists on the web
+# ── Repository (powers the GitHub + "open in Colab" buttons) ───────────────
 repository:
-  url: https://github.com/executablebooks/jupyter-book  # Online location of your book
-  path_to_book: docs  # Optional path to your book, relative to the repository root
-  branch: master  # Which branch of the repository should be used when creating links (optional)
+  url: https://github.com/tagalogclark123-cmyk/ds-portfolio-tagalog
+  path_to_book: ""      # the book lives at the repo root
+  branch: main
 
-# Add GitHub buttons to your book
-# See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
+launch_buttons:
+  notebook_interface: classic
+  colab_url: "https://colab.research.google.com"
+
+# ── HTML output ────────────────────────────────────────────────────────────
 html:
-  use_issues_button: true
+  favicon: _static/favicon.png
+  baseurl: https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/
   use_repository_button: true
+  use_issues_button: false
+  use_edit_page_button: false
+  extra_footer: |
+    <p class="footer-note">
+      Built with <a href="https://jupyterbook.org">Jupyter Book</a> ·
+      <a href="https://github.com/tagalogclark123-cmyk/ds-portfolio-tagalog">Source on GitHub</a>
+    </p>
+
+# ── Markdown / MyST ────────────────────────────────────────────────────────
+parse:
+  myst_enable_extensions:
+    - amsmath        # raw \begin{align} ... \end{align} blocks
+    - colon_fence    # ::: fences for directives (used on the home page)
+    - deflist        # definition lists
+    - dollarmath     # $inline$ and $$display$$ math
+    - html_image     # <img> tags become proper figures
+    - linkify        # bare URLs become links
+    - substitution
+    - tasklist       # - [ ] checkboxes
+
+# ── Sphinx (theme + extras) ────────────────────────────────────────────────
+sphinx:
+  # Merge the theme options below with the ones Jupyter Book generates from the
+  # `html:`, `repository:` and `launch_buttons:` sections above. Without this,
+  # the GitHub / Colab buttons and footer would be silently dropped.
+  recursive_update: true
+  extra_extensions:
+    - sphinxext.opengraph          # rich link previews (LinkedIn, Slack, …)
+  config:
+    # Use each notebook's own metadata "title" as the page title.
+    # (Your notebooks have no top-level "# Heading", so without this every page
+    #  is titled "My Approach".)  Notebook files are NOT modified.
+    myst_title_to_header: true
+
+    # Notebooks start their headings at "###"; that's fine, so silence the
+    # "Document headings start at H3, not H1" warning.
+    suppress_warnings:
+      - myst.header
+
+    # Custom look & feel (_static/ is picked up automatically)
+    html_css_files:
+      - "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      - custom.css
+
+    html_theme_options:
+      logo:
+        text: Data Science Portfolio
+      toc_title: On this page
+      show_navbar_depth: 1
+      navigation_with_keys: false
+      back_to_top_button: true
+      pygments_light_style: friendly
+      pygments_dark_style: one-dark
+      icon_links:
+        - name: GitHub profile
+          url: https://github.com/tagalogclark123-cmyk
+          type: fontawesome
+          icon: fa-brands fa-github
+      # announcement: "🚧 New lab reports are added as the course progresses."
+
+    # Link-preview (Open Graph) metadata
+    ogp_site_url: https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/
+    ogp_site_name: Data Science Portfolio
+    ogp_description_length: 0     # 0 = don't auto-generate one from page text (it would pull in LaTeX)
+    ogp_custom_meta_tags:
+      - '<meta name="description" content="Lab reports on neural networks and deep learning with PyTorch: forward and backward propagation, regression and tensor fundamentals." />'
+      - '<meta property="og:description" content="Lab reports on neural networks and deep learning with PyTorch: forward and backward propagation, regression and tensor fundamentals." />'
+      - '<meta name="twitter:card" content="summary_large_image" />'
+    ogp_image: _static/social-card.png
+    ogp_image_alt: "Data Science Portfolio — lab reports on neural networks and PyTorch"
+    ogp_type: website

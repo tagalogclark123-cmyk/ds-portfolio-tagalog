@@ -1,0 +1,477 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Data Science Portfolio — custom look & feel
+   Loaded from _config.yml (sphinx → html_css_files). Edit freely.
+
+   Quick tweaks:
+     • Change the brand colour  → the --pst-color-primary / secondary lines in §1
+     • Change fonts             → §2 (and the Google Fonts URL in _config.yml)
+     • Don't like the task-card restyle? → delete §6 (the ".alert-block" rules)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ── 1 · Palette ───────────────────────────────────────────────────────────
+   Indigo → violet, with an amber accent (the "output neuron" in the logo).
+   Variables are the PyData theme's own, so everything picks them up.        */
+
+html[data-theme="light"] {
+  --pst-color-primary: #4f46e5;
+  --pst-color-primary-bg: #e8eafd;
+  --pst-color-primary-text: #ffffff;
+  --pst-color-primary-highlight: #4338ca;
+  --pst-color-primary-highlight-text: #ffffff;
+  --pst-color-secondary: #7c3aed;
+  --pst-color-secondary-bg: #efe8fd;
+  --pst-color-secondary-text: #ffffff;
+  --pst-color-secondary-highlight: #6d28d9;
+  --pst-color-accent: #d97706;
+  --pst-color-accent-bg: #fef3c7;
+
+  --pst-color-text-base: #1f2433;
+  --pst-color-text-muted: #596079;
+  --pst-color-heading: #131726;
+  --pst-color-border: #e1e4ef;
+  --pst-color-border-muted: #eceef6;
+  --pst-color-shadow: rgba(30, 27, 75, 0.10);
+
+  --pst-color-background: #ffffff;
+  --pst-color-on-background: #ffffff;
+  --pst-color-surface: #f6f7fb;
+  --pst-color-on-surface: #1f2433;
+
+  --pst-color-link: var(--pst-color-primary);
+  --pst-color-link-hover: var(--pst-color-secondary);
+  --pst-color-link-higher-contrast: #3730a3;
+  --pst-color-inline-code: #6d28d9;
+  --pst-color-target: #fde9a8;
+
+  --pst-color-table-row-hover-bg: #eef0fe;
+  --pst-color-table-inner-border: #e6e8f2;
+  --pst-color-table-heading-bg: #eef0fb;
+
+  /* sphinx-design (cards, badges, dropdowns) */
+  --sd-color-primary-bg: #e8eafd;
+  --sd-color-primary-bg-text: #1f2433;
+  --sd-color-secondary-bg: #efe8fd;
+  --sd-color-secondary-bg-text: #1f2433;
+}
+
+html[data-theme="dark"] {
+  --pst-color-primary: #8b93ff;
+  --pst-color-primary-bg: #1f2242;
+  --pst-color-primary-text: #0e1019;
+  --pst-color-primary-highlight: #a3a9ff;
+  --pst-color-primary-highlight-text: #0e1019;
+  --pst-color-secondary: #b28dff;
+  --pst-color-secondary-bg: #2a2049;
+  --pst-color-secondary-text: #0e1019;
+  --pst-color-secondary-highlight: #c4a8ff;
+  --pst-color-accent: #fbbf24;
+  --pst-color-accent-bg: #3a2c08;
+
+  --pst-color-text-base: #d6dae8;
+  --pst-color-text-muted: #99a1bb;
+  --pst-color-heading: #f2f4fb;
+  --pst-color-border: #2b3150;
+  --pst-color-border-muted: #22273f;
+  --pst-color-shadow: rgba(0, 0, 0, 0.35);
+
+  --pst-color-background: #0e1019;
+  --pst-color-on-background: #151826;
+  --pst-color-surface: #1a1e30;
+  --pst-color-on-surface: #d6dae8;
+
+  --pst-color-link: var(--pst-color-primary);
+  --pst-color-link-hover: var(--pst-color-secondary);
+  --pst-color-link-higher-contrast: #a9afff;
+  --pst-color-inline-code: #cdb8ff;
+  --pst-color-target: #4a3d0a;
+
+  --pst-color-table-row-hover-bg: #252a4a;
+  --pst-color-table-inner-border: #2b3150;
+  --pst-color-table-heading-bg: #1f2340;
+
+  --sd-color-primary-bg: #1f2242;
+  --sd-color-primary-bg-text: #f2f4fb;
+  --sd-color-secondary-bg: #2a2049;
+  --sd-color-secondary-bg-text: #f2f4fb;
+}
+
+
+/* ── 2 · Typography ──────────────────────────────────────────────────────── */
+
+html, html[data-theme] {
+  --pst-font-family-base: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --pst-font-family-heading: var(--pst-font-family-base);
+  --pst-font-family-monospace: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --pst-font-size-base: 1rem;
+  --pst-font-size-h1: 2.35rem;
+  --pst-font-size-h2: 1.6rem;
+  --pst-font-size-h3: 1.28rem;
+  --pst-font-size-h4: 1.1rem;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html, html[data-theme] { scroll-behavior: auto; }
+}
+
+body {
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+
+.bd-article p,
+.bd-article li,
+.bd-article dd {
+  line-height: 1.75;
+}
+
+.bd-article h1,
+.bd-article h2,
+.bd-article h3,
+.bd-article h4 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--pst-color-heading);
+}
+
+.bd-article h1 {
+  position: relative;
+  margin-bottom: 1.6rem;
+  padding-bottom: 0.9rem;
+  line-height: 1.2;
+}
+/* gradient underline bar beneath every page title */
+.bd-article h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 4.5rem;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--pst-color-primary), var(--pst-color-secondary) 60%, var(--pst-color-accent));
+}
+
+.bd-article h2 {
+  margin-top: 2.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--pst-color-border);
+}
+
+.bd-article a.headerlink { opacity: 0; transition: opacity .15s; }
+.bd-article :is(h1, h2, h3, h4):hover > a.headerlink { opacity: 0.55; }
+
+.bd-article code:not(.xref):not(.download) {
+  font-size: 0.86em;
+  padding: 0.12em 0.4em;
+  border-radius: 6px;
+  border: 1px solid var(--pst-color-border);
+  background: var(--pst-color-surface);
+}
+
+::selection { background: var(--pst-color-primary-bg); color: var(--pst-color-text-base); }
+
+
+/* ── 3 · Layout & sidebars ───────────────────────────────────────────────── */
+
+.bd-main .bd-content .bd-article-container { max-width: 56rem; }
+
+/* logo + site title */
+.navbar-brand.logo,
+.bd-sidebar-primary .sidebar-header-items__start .navbar-brand { gap: 0.7rem; }
+.navbar-brand .logo__image { max-height: 2.9rem; width: auto; border-radius: 0; }
+.navbar-brand .logo__title {
+  font-weight: 700;
+  font-size: 1.02rem;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--pst-color-heading);
+}
+
+/* part captions ("Neural Network Foundations", …) */
+.bd-sidebar-primary .bd-links p.caption,
+.bd-sidebar-primary .bd-links .caption {
+  margin-top: 1.4rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--pst-color-text-muted);
+}
+
+/* nav items → soft pills */
+.bd-sidebar-primary .bd-links li > a {
+  display: block;
+  padding: 0.45rem 0.75rem;
+  border-radius: 9px;
+  font-size: 0.93rem;
+  line-height: 1.35;
+  color: var(--pst-color-text-base);
+  box-shadow: none;
+  transition: background-color .15s, color .15s;
+}
+.bd-sidebar-primary .bd-links li > a:hover {
+  background: var(--pst-color-surface);
+  color: var(--pst-color-primary);
+  text-decoration: none;
+}
+.bd-sidebar-primary .bd-links li.current > a,
+.bd-sidebar-primary .bd-links li > a.current {
+  background: var(--pst-color-primary-bg);
+  color: var(--pst-color-primary);
+  font-weight: 600;
+  box-shadow: none;
+}
+
+/* "On this page" (right column) */
+.bd-sidebar-secondary .sidebar-secondary-item .onthispage,
+.bd-sidebar-secondary .page-toc .onthispage {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--pst-color-text-muted);
+}
+.bd-toc-nav .nav-link,
+.page-toc .nav-link { font-size: 0.86rem; line-height: 1.4; }
+.bd-toc-nav .nav-link.active,
+.page-toc .nav-link.active { color: var(--pst-color-primary); font-weight: 600; }
+
+/* prev / next cards */
+.prev-next-area a.left-prev,
+.prev-next-area a.right-next {
+  border: 1px solid var(--pst-color-border);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  transition: border-color .15s, box-shadow .15s, transform .15s;
+}
+.prev-next-area a.left-prev:hover,
+.prev-next-area a.right-next:hover {
+  border-color: var(--pst-color-primary);
+  box-shadow: 0 10px 28px -14px var(--pst-color-primary);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+/* footer */
+.bd-footer-content,
+.bd-footer-article { color: var(--pst-color-text-muted); font-size: 0.85rem; }
+.footer-note { margin: 0.25rem 0 0; }
+
+.back-to-top {
+  background: var(--pst-color-primary);
+  color: var(--pst-color-primary-text);
+  border: 0;
+  box-shadow: 0 8px 24px -8px var(--pst-color-primary);
+}
+
+
+/* ── 4 · Notebook cells: code, outputs, plots, tables ────────────────────── */
+
+.bd-article div.cell { margin: 1.1rem 0; }
+
+.bd-article div.cell_input,
+.bd-article div.cell_output .output,
+.bd-article div.highlight { border-radius: 10px; }
+
+/* input = indigo bar, output = amber bar (mirrors the logo: inputs → output) */
+/* (!important: the notebook/theme CSS otherwise wins with a green border) */
+.bd-article div.cell_input {
+  border: 1px solid var(--pst-color-border) !important;
+  border-left: 4px solid var(--pst-color-primary) !important;
+  border-radius: 10px !important;
+  background: var(--pst-color-surface) !important;
+  overflow: hidden;
+}
+.bd-article div.cell_input .highlight,
+.bd-article div.cell_input pre { background: transparent; border: 0; }
+
+.bd-article div.cell_input pre,
+.bd-article div.cell_output pre {
+  font-size: 0.83rem;
+  line-height: 1.6;
+  padding: 1rem 1.15rem;
+}
+
+.bd-article div.cell_output { margin-top: 0.5rem; }
+.bd-article div.cell_output .output.stream,
+.bd-article div.cell_output .output.text_plain {
+  border: 1px solid var(--pst-color-border);
+  border-left: 4px solid var(--pst-color-accent);
+  background: var(--pst-color-on-background);
+  overflow-x: auto;
+}
+.bd-article div.cell_output .output.stderr {
+  border-left-color: var(--pst-color-danger);
+}
+
+/* plots */
+.bd-article div.cell_output img {
+  display: block;
+  margin: 0.5rem auto;
+  max-width: 100%;
+  height: auto;
+  padding: 0.5rem;
+  background: #ffffff;
+  border: 1px solid var(--pst-color-border);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px -14px var(--pst-color-shadow);
+}
+
+/* pandas DataFrames */
+.bd-article table.dataframe {
+  font-size: 0.82rem;
+  border-collapse: collapse;
+  border: 1px solid var(--pst-color-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.bd-article table.dataframe th,
+.bd-article table.dataframe td { padding: 0.4rem 0.75rem; }
+.bd-article table.dataframe thead th {
+  font-weight: 600;
+  color: var(--pst-color-heading);
+  background: var(--pst-color-table-heading-bg);
+}
+
+/* copy button */
+.bd-article div.highlight button.copybtn { border-radius: 8px; }
+
+
+/* ── 5 · Math, admonitions, quotes, tables ───────────────────────────────── */
+
+.bd-article mjx-container[display="true"] {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.35rem 0;
+}
+
+.bd-article .admonition,
+.bd-article div.admonition {
+  border-radius: 12px;
+  box-shadow: none;
+  border: 1px solid var(--pst-color-border);
+  overflow: hidden;
+}
+.bd-article .admonition > .admonition-title { font-weight: 700; letter-spacing: -0.005em; }
+
+.bd-article blockquote {
+  border-left: 4px solid var(--pst-color-secondary);
+  background: var(--pst-color-surface);
+  border-radius: 0 10px 10px 0;
+  padding: 0.6rem 1.1rem;
+}
+
+.bd-article table.table { border-radius: 10px; overflow: hidden; }
+
+
+/* ── 6 · The "task card" at the top of each lab ─────────────────────────────
+   The notebooks open with <div class="alert alert-block alert-success"
+   style="font-family: Times New Roman">. That is Jupyter-classic markup, so
+   here it is restyled to match the book (same content, book font, brand colour).
+   Delete this whole section to get the original look back.                   */
+
+.bd-article .alert.alert-block {
+  margin: 0.4rem 0 2rem;
+  padding: 1.15rem 1.5rem 0.9rem;
+  color: var(--pst-color-text-base);
+  background: linear-gradient(135deg, var(--pst-color-primary-bg) 0%, var(--pst-color-surface) 100%);
+  border: 1px solid var(--pst-color-border);
+  border-left: 5px solid var(--pst-color-primary);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px -18px var(--pst-color-primary);
+}
+.bd-article .alert.alert-block,
+.bd-article .alert.alert-block :is(p, li, h4, b, strong, em, div, span, a):not(mjx-container *) {
+  font-family: var(--pst-font-family-base) !important;   /* (math keeps its own font) */
+}
+
+.bd-article .alert.alert-block h4 {
+  margin: 0 0 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pst-color-primary);
+}
+.bd-article .alert.alert-block h4 strong { font-weight: 700; }
+.bd-article .alert.alert-block p,
+.bd-article .alert.alert-block li {
+  text-align: left !important;
+  font-size: 1rem !important;
+  line-height: 1.7;
+}
+.bd-article .alert.alert-block pre { margin: 0.6rem 0; }
+.bd-article .alert.alert-block mjx-container { overflow-x: auto; }
+
+
+/* ── 7 · Home page ───────────────────────────────────────────────────────── */
+
+.hero-lead {
+  max-width: 40rem;
+  margin: 0 0 1.1rem;
+  font-size: 1.18rem;
+  line-height: 1.7;
+  color: var(--pst-color-text-muted);
+}
+.hero-lead p { font-size: inherit; line-height: inherit; margin: 0; }
+
+.hero-badges { margin: 0 0 2.2rem; }
+.hero-badges p { margin: 0; line-height: 2.2; }
+.bd-article .sd-badge { font-weight: 600; letter-spacing: 0.01em; padding: 0.4em 0.85em; }
+
+/* lab cards */
+.lab-grid { margin-top: 0.4rem; }
+.bd-article .sd-card.lab-card {
+  border: 1px solid var(--pst-color-border);
+  border-radius: 16px;
+  box-shadow: none !important;
+  overflow: hidden;
+  background: var(--pst-color-on-background);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.bd-article .sd-card.lab-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--pst-color-primary);
+  box-shadow: 0 18px 40px -22px var(--pst-color-primary) !important;
+}
+.bd-article .sd-card.lab-card .sd-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--pst-color-heading);
+}
+.bd-article .sd-card.lab-card .sd-card-title svg { color: var(--pst-color-primary); vertical-align: -0.15em; }
+.bd-article .sd-card.lab-card .sd-card-text {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--pst-color-text-muted);
+}
+.bd-article .sd-card.lab-card .sd-card-footer {
+  background: transparent;
+  border-top: 1px dashed var(--pst-color-border);
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+}
+.bd-article .sd-card.lab-card .sd-card-footer p { margin: 0; line-height: 2; }
+
+
+/* ── 8 · Small screens ───────────────────────────────────────────────────── */
+
+@media (max-width: 576px) {
+  html, html[data-theme] { --pst-font-size-h1: 1.9rem; --pst-font-size-h2: 1.35rem; }
+  .hero-lead { font-size: 1.05rem; }
+  .bd-article .alert.alert-block { padding: 0.95rem 1.1rem 0.7rem; border-radius: 12px; }
+  .bd-article div.cell_input pre,
+  .bd-article div.cell_output pre { padding: 0.8rem 0.9rem; font-size: 0.78rem; }
+}
+
+/* ── 9 · Print / "Save as PDF" ───────────────────────────────────────────── */
+
+@media print {
+  .bd-article div.cell_input,
+  .bd-article div.cell_output img { break-inside: avoid; }
+  .bd-article .alert.alert-block { box-shadow: none; }
+}

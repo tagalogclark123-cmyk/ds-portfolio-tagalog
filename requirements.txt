@@ -1,3 +1,14 @@
-jupyter-book
+# Build tools ---------------------------------------------------------------
+# Jupyter Book v2 uses a different config format (myst.yml), so stay on v1.
+jupyter-book>=1.0,<2
+sphinxext-opengraph        # link previews (used in _config.yml)
+ghp-import                 # deploy:  ghp-import -n -p -f _build/html
+
+# Kept from the original template
 matplotlib
 numpy
+
+# Only needed if you set `execute_notebooks: cache` or `force` in _config.yml
+# pandas
+# scikit-learn
+# torch
