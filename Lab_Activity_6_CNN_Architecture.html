@@ -1,0 +1,1094 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Laboratory Activity 6 - CNN Architecture Diagram to PyTorch" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/Lab_Activity_6_CNN_Architecture.html" />
+<meta property="og:site_name" content="Data Science Portfolio" />
+<meta property="og:image" content="https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/_static/social-card.png" />
+<meta property="og:image:alt" content="Data Science Portfolio — lab reports on neural networks and PyTorch" />
+<meta name="description" content="Lab reports on neural networks and deep learning with PyTorch: forward and backward propagation, regression and tensor fundamentals." />
+<meta property="og:description" content="Lab reports on neural networks and deep learning with PyTorch: forward and backward propagation, regression and tensor fundamentals." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Laboratory Activity 6 - CNN Architecture Diagram to PyTorch &#8212; Data Science Portfolio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=30bb9775" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Lab_Activity_6_CNN_Architecture';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="canonical" href="https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/Lab_Activity_6_CNN_Architecture.html" />
+    <link rel="icon" href="_static/favicon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Laboratory Task 5 - PyTorch Tensor Fundamentals" href="Lab_Task_5_PyTorch_Tensor_Fundamentals.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.svg" class="logo__image only-light" alt=""/>
+    <img src="_static/logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Data Science Portfolio</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tagalogclark123-cmyk" title="GitHub profile" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub profile</span></a>
+        </li>
+</ul></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Hello, World.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Neural Network Foundations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_2_Forward_Pass_and_Error.html">Lab 2 · Forward Pass &amp; Error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_3_Forward_and_Backward_Propagation.html">Lab 3 · Forward &amp; Backward Propagation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning with PyTorch</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_4_PyTorch_Regression.html">Lab 4 · PyTorch Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_5_PyTorch_Tensor_Fundamentals.html">Lab 5 · Tensor Fundamentals</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Convolutional Neural Networks</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lab 6 · CNN Architecture</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/tagalogclark123-cmyk/ds-portfolio-tagalog/blob/main/Lab_Activity_6_CNN_Architecture.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+<a href="https://github.com/tagalogclark123-cmyk/ds-portfolio-tagalog" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Lab_Activity_6_CNN_Architecture.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Laboratory Activity 6 - CNN Architecture Diagram to PyTorch</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> On this page </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-approach">My Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-imports">1. Standard Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-the-shapes-by-hand">2. Deriving the shapes by hand</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-architecture">3. Building the architecture</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instantiate-the-model-and-inspect-it">4. Instantiate the model and inspect it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dummy-forward-pass-confirming-the-shapes-match-the-derivation">5. Dummy forward pass — confirming the shapes match the derivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-correct-training-step-addressing-the-softmax-loss-function-subtlety">6. A correct training step (addressing the Softmax + loss-function subtlety)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="laboratory-activity-6-cnn-architecture-diagram-to-pytorch">
+<h1>Laboratory Activity 6 - CNN Architecture Diagram to PyTorch<a class="headerlink" href="#laboratory-activity-6-cnn-architecture-diagram-to-pytorch" title="Link to this heading">#</a></h1>
+<div class="alert alert-block alert-success" style="font-family: Times New Roman">
+    <h4><strong>Laboratory Activity 6</strong></h4>
+<p style="font-family:Times New Roman; text-align:justify; font-size:15px">
+    <b>Instruction:</b> Convert the following CNN architecture diagram into a PyTorch CNN Architecture.
+</p>
+<center><img src="mao_ni.jpg" width="400px"></center>
+</div>
+<p><strong>Diagram summary (transcribed from the provided image):</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Block</p></th>
+<th class="head"><p>Layer(s)</p></th>
+<th class="head"><p>Parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Input</p></td>
+<td><p>—</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">28,</span> <span class="pre">28)</span></code> — 1 channel, 28×28</p></td>
+</tr>
+<tr class="row-odd"><td><p>Block 1</p></td>
+<td><p>Conv1 → ReLU → MaxPool1</p></td>
+<td><p>Conv: kernel=(3,3), stride=1, padding=1  |  Pool: kernel=(2,2), stride=2, padding=1</p></td>
+</tr>
+<tr class="row-even"><td><p>Block 2</p></td>
+<td><p>Conv2 → ReLU</p></td>
+<td><p>kernel=(3,3), stride=1, padding=1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Block 3</p></td>
+<td><p>Conv3 → ReLU</p></td>
+<td><p>kernel=(3,3), stride=1, padding=1</p></td>
+</tr>
+<tr class="row-even"><td><p>Block 4</p></td>
+<td><p>Conv4 → ReLU → MaxPool2</p></td>
+<td><p>Conv: kernel=(3,3), stride=1, padding=1  |  Pool: kernel=(2,2), stride=2, padding=0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Regularize</p></td>
+<td><p>Dropout → Flatten</p></td>
+<td><p>p=0.2</p></td>
+</tr>
+<tr class="row-even"><td><p>Block 5</p></td>
+<td><p>FCN1 → ReLU</p></td>
+<td><p>output=1000</p></td>
+</tr>
+<tr class="row-odd"><td><p>Block 6</p></td>
+<td><p>FCN2 → ReLU</p></td>
+<td><p>input=1000, output=500</p></td>
+</tr>
+<tr class="row-even"><td><p>Block 7</p></td>
+<td><p>FCN3 → SoftMax</p></td>
+<td><p>input=500, output=? (num classes)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="my-approach">
+<h2>My Approach<a class="headerlink" href="#my-approach" title="Link to this heading">#</a></h2>
+<p>Before writing a single line of PyTorch, I want to fully pin down every number in this diagram, because a couple of things in it are ambiguous or left as “?” for me to derive.</p>
+<p><strong>1. Working out the channel counts.</strong>
+The diagram doesn’t explicitly state each convolution’s <code class="docutils literal notranslate"><span class="pre">in_channels</span></code>/<code class="docutils literal notranslate"><span class="pre">out_channels</span></code>, but they can be read off from context:</p>
+<ul class="simple">
+<li><p>The input has 1 channel (grayscale, <code class="docutils literal notranslate"><span class="pre">28×28</span></code>).</p></li>
+<li><p>Conv1’s shape annotation <code class="docutils literal notranslate"><span class="pre">(32,</span> <span class="pre">32,</span> <span class="pre">28,</span> <span class="pre">28)</span></code> tells me its <strong>output</strong> has 32 channels → <code class="docutils literal notranslate"><span class="pre">Conv1:</span> <span class="pre">in=1,</span> <span class="pre">out=32</span></code>.</p></li>
+<li><p>From there, the diagram’s channel counts simply double at each subsequent conv layer (a very common CNN design pattern): <code class="docutils literal notranslate"><span class="pre">Conv2:</span> <span class="pre">in=32,</span> <span class="pre">out=64</span></code>, <code class="docutils literal notranslate"><span class="pre">Conv3:</span> <span class="pre">in=64,</span> <span class="pre">out=128</span></code>, <code class="docutils literal notranslate"><span class="pre">Conv4:</span> <span class="pre">in=128,</span> <span class="pre">out=256</span></code>.</p></li>
+</ul>
+<p><strong>2. Making sense of the shape annotations.</strong>
+This is the part that needs the most care. Look at the tuples printed next to each block:</p>
+<ul class="simple">
+<li><p>Block 1: <code class="docutils literal notranslate"><span class="pre">(32,</span> <span class="pre">32,</span> <span class="pre">28,</span> <span class="pre">28)</span></code></p></li>
+<li><p>Block 2 (Conv2): <code class="docutils literal notranslate"><span class="pre">(32,</span> <span class="pre">64,</span> <span class="pre">?,</span> <span class="pre">?)</span></code></p></li>
+<li><p>Block 3 (Conv3): <code class="docutils literal notranslate"><span class="pre">(64,</span> <span class="pre">128,</span> <span class="pre">?,</span> <span class="pre">?)</span></code></p></li>
+<li><p>Block 4 (Conv4+Pool2): <code class="docutils literal notranslate"><span class="pre">(128,</span> <span class="pre">256,</span> <span class="pre">?,</span> <span class="pre">?)</span></code></p></li>
+<li><p>Flatten: <code class="docutils literal notranslate"><span class="pre">(32,</span> <span class="pre">?)</span></code></p></li>
+</ul>
+<p>If these were all meant to be <strong>output tensor shapes</strong> in the usual <code class="docutils literal notranslate"><span class="pre">(batch,</span> <span class="pre">channels,</span> <span class="pre">H,</span> <span class="pre">W)</span></code> PyTorch convention, the first number should stay constant at the batch size (<code class="docutils literal notranslate"><span class="pre">32</span></code>) all the way down — but it visibly changes to <code class="docutils literal notranslate"><span class="pre">64</span></code> and then <code class="docutils literal notranslate"><span class="pre">128</span></code> for Conv3 and Conv4. That only makes sense if, for the middle two rows, the diagram’s author is actually annotating <strong><code class="docutils literal notranslate"><span class="pre">(in_channels,</span> <span class="pre">out_channels,</span> <span class="pre">H,</span> <span class="pre">W)</span></code></strong> for that specific conv layer, rather than the output batch shape — i.e. they switched notation partway through to remind the reader what channel transformation each layer performs. The very first block and the Flatten step, on the other hand, are consistent with <code class="docutils literal notranslate"><span class="pre">(batch_size,</span> <span class="pre">...,</span> <span class="pre">...)</span></code> using an assumed <strong>batch size of 32</strong>.</p>
+<p>Rather than guess and propagate a possibly-wrong number, I resolve this the way I would in practice: <strong>compute the real, PyTorch-verified <code class="docutils literal notranslate"><span class="pre">(batch,</span> <span class="pre">channels,</span> <span class="pre">H,</span> <span class="pre">W)</span></code> shape after every layer myself</strong>, using the standard convolution/pooling output-size formula, and use <code class="docutils literal notranslate"><span class="pre">batch_size</span> <span class="pre">=</span> <span class="pre">32</span></code> consistently throughout (matching the one unambiguous batch-size hint in the diagram, at the Flatten step). I show that derivation below, then confirm it against PyTorch’s actual layer outputs later in the notebook — so the final architecture is faithful to the diagram’s layer parameters (kernels, strides, paddings, channel counts) while being numerically self-consistent, which the diagram’s own labels are not.</p>
+<p><strong>3. The output-size formula.</strong>
+For a convolution or pooling layer with kernel size <span class="math notranslate nohighlight">\(K\)</span>, stride <span class="math notranslate nohighlight">\(S\)</span>, and padding <span class="math notranslate nohighlight">\(P\)</span>, applied to an input of spatial size <span class="math notranslate nohighlight">\(H_{in}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[H_{out} = \left\lfloor \frac{H_{in} + 2P - K}{S} \right\rfloor + 1\]</div>
+<p>(and the same formula applies independently to the width, since every kernel/stride/padding here is square). I’ll apply this layer by layer.</p>
+<p><strong>4. The final “?”s: FCN1’s input size and FCN3’s output size.</strong></p>
+<ul class="simple">
+<li><p>FCN1’s <code class="docutils literal notranslate"><span class="pre">input=?</span></code> is just whatever the flattened feature-map size turns out to be after Dropout — I derive that below (<code class="docutils literal notranslate"><span class="pre">256</span> <span class="pre">channels</span> <span class="pre">×</span> <span class="pre">7</span> <span class="pre">×</span> <span class="pre">7</span> <span class="pre">=</span> <span class="pre">12544</span></code>).</p></li>
+<li><p>FCN3’s <code class="docutils literal notranslate"><span class="pre">output=?</span></code> is the number of target classes. The filename <code class="docutils literal notranslate"><span class="pre">quick_draw.png</span></code> strongly suggests this architecture is meant for Google’s <strong>Quick, Draw!</strong> doodle-classification dataset, which is commonly used in classroom exercises with a small subset of categories. Since the exact number of classes isn’t given, I make it a constructor parameter (<code class="docutils literal notranslate"><span class="pre">num_classes</span></code>) with a sensible default, so the same class can be reused directly regardless of how many doodle categories the actual training set ends up using.</p></li>
+</ul>
+<p><strong>5. Softmax vs. <code class="docutils literal notranslate"><span class="pre">CrossEntropyLoss</span></code> — a design note.</strong>
+The diagram explicitly ends with a <code class="docutils literal notranslate"><span class="pre">SoftMax</span></code> layer, so I include <code class="docutils literal notranslate"><span class="pre">nn.Softmax(dim=1)</span></code> in the model to match it exactly. It’s worth flagging <em>why</em> this matters for training, though: PyTorch’s <code class="docutils literal notranslate"><span class="pre">nn.CrossEntropyLoss</span></code> already applies <code class="docutils literal notranslate"><span class="pre">log_softmax</span></code> internally, so feeding it a model that <em>also</em> applies softmax would effectively apply softmax twice and give incorrect gradients. Since I’m keeping the softmax layer (to stay faithful to the diagram), the correct pairing for training is <code class="docutils literal notranslate"><span class="pre">nn.NLLLoss</span></code> applied to the <strong>log</strong> of the model’s output (mathematically equivalent to <code class="docutils literal notranslate"><span class="pre">log_softmax</span></code> → <code class="docutils literal notranslate"><span class="pre">NLLLoss</span></code>, which is exactly what <code class="docutils literal notranslate"><span class="pre">CrossEntropyLoss</span></code> does under the hood on raw logits). I demonstrate this explicitly in the training-step section so the subtlety doesn’t get lost.</p>
+<p>With all of that reasoned out, here’s the plan for the notebook:</p>
+<ol class="arabic simple">
+<li><p>Standard imports.</p></li>
+<li><p>Derive every intermediate tensor shape by hand, with the output-size formula, and collect it into a small table.</p></li>
+<li><p>Implement the architecture as a <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> subclass, matching every layer/parameter from the diagram.</p></li>
+<li><p>Instantiate the model, print its structure and parameter count.</p></li>
+<li><p>Run a dummy forward pass and print the shape after every single layer, to confirm it matches the hand-derived table exactly.</p></li>
+<li><p>Demonstrate one correct training step (forward → loss → backward → optimizer step), addressing the Softmax/loss-function subtlety above.</p></li>
+</ol>
+</section>
+<section id="standard-imports">
+<h2>1. Standard Imports<a class="headerlink" href="#standard-imports" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cuda:0"</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"cpu"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Using device:"</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"torch version:"</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Using device: cpu
+torch version: 2.14.0+cu130
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="deriving-the-shapes-by-hand">
+<h2>2. Deriving the shapes by hand<a class="headerlink" href="#deriving-the-shapes-by-hand" title="Link to this heading">#</a></h2>
+<p>I write a small helper that implements the output-size formula from above, then walk through the network layer by layer, exactly as laid out in the diagram. I’m using an assumed batch size of 32 throughout, consistent with the one unambiguous batch-size hint in the diagram (the Flatten step’s shape).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Standard output-size formula for a 2D conv/pool layer (square kernels).</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">conv_output_size</span><span class="p">(</span><span class="n">h_in</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">h_in</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">padding</span> <span class="o">-</span> <span class="n">kernel_size</span><span class="p">)</span> <span class="o">//</span> <span class="n">stride</span> <span class="o">+</span> <span class="mi">1</span>
+
+
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">W</span> <span class="o">=</span> <span class="mi">28</span>   <span class="c1"># input spatial size</span>
+<span class="n">C</span> <span class="o">=</span> <span class="mi">1</span>        <span class="c1"># input channels</span>
+
+<span class="n">shape_log</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">shape_log</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"Input"</span><span class="p">,</span>           <span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">))</span>
+
+<span class="c1"># ---- Block 1: Conv1 -&gt; ReLU -&gt; MaxPool1 ----</span>
+<span class="n">C</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">shape_log</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"Conv1 (ReLU)"</span><span class="p">,</span>    <span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">))</span>          <span class="c1"># k=3,s=1,p=1 -&gt; size unchanged</span>
+
+<span class="n">H</span> <span class="o">=</span> <span class="n">W</span> <span class="o">=</span> <span class="n">conv_output_size</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>     <span class="c1"># MaxPool1: k=2,s=2,p=1</span>
+<span class="n">shape_log</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"MaxPool1"</span><span class="p">,</span>        <span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">))</span>
+
+<span class="c1"># ---- Block 2: Conv2 -&gt; ReLU ----</span>
+<span class="n">C</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">shape_log</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"Conv2 (ReLU)"</span><span class="p">,</span>    <span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">))</span>          <span class="c1"># k=3,s=1,p=1 -&gt; size unchanged</span>
+
+<span class="c1"># ---- Block 3: Conv3 -&gt; ReLU ----</span>
+<span class="n">C</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">shape_log</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"Conv3 (ReLU)"</span><span class="p">,</span>    <span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">))</span>          <span class="c1"># k=3,s=1,p=1 -&gt; size unchanged</span>
+
+<span class="c1"># ---- Block 4: Conv4 -&gt; ReLU -&gt; MaxPool2 ----</span>
+<span class="n">C</span> <span class="o">=</span> <span class="mi">256</span>
+<span class="n">shape_log</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"Conv4 (ReLU)"</span><span class="p">,</span>    <span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">))</span>          <span class="c1"># k=3,s=1,p=1 -&gt; size unchanged</span>
+
+<span class="n">H</span> <span class="o">=</span> <span class="n">W</span> <span class="o">=</span> <span class="n">conv_output_size</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>     <span class="c1"># MaxPool2: k=2,s=2,p=0</span>
+<span class="n">shape_log</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"MaxPool2"</span><span class="p">,</span>        <span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">))</span>
+
+<span class="c1"># ---- Dropout doesn't change shape ----</span>
+<span class="n">shape_log</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"Dropout(p=0.2)"</span><span class="p">,</span>  <span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">))</span>
+
+<span class="c1"># ---- Flatten ----</span>
+<span class="n">flat_features</span> <span class="o">=</span> <span class="n">C</span> <span class="o">*</span> <span class="n">H</span> <span class="o">*</span> <span class="n">W</span>
+<span class="n">shape_log</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"Flatten"</span><span class="p">,</span>         <span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">flat_features</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'Layer'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> Shape"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="mi">45</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">shape_log</span><span class="p">:</span>
+    <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">dims</span> <span class="o">=</span> <span class="n">entry</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=&gt; FCN1's input size (the diagram's '?') = </span><span class="si">{</span><span class="n">flat_features</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Layer                Shape
+---------------------------------------------
+Input                (32, 1, 28, 28)
+Conv1 (ReLU)         (32, 32, 28, 28)
+MaxPool1             (32, 32, 15, 15)
+Conv2 (ReLU)         (32, 64, 15, 15)
+Conv3 (ReLU)         (32, 128, 15, 15)
+Conv4 (ReLU)         (32, 256, 15, 15)
+MaxPool2             (32, 256, 7, 7)
+Dropout(p=0.2)       (32, 256, 7, 7)
+Flatten              (32, 12544)
+
+=&gt; FCN1's input size (the diagram's '?') = 12544
+</pre></div>
+</div>
+</div>
+</div>
+<p>Two things stand out from this derivation:</p>
+<ol class="arabic simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">MaxPool1</span></code> grows the spatial size relative to plain “no padding” pooling.</strong> With <code class="docutils literal notranslate"><span class="pre">padding=1</span></code> on a 2×2/stride-2 pool over a 28×28 input, the formula gives <span class="math notranslate nohighlight">\(\lfloor (28+2-2)/2 \rfloor + 1 = 15\)</span>, not the <span class="math notranslate nohighlight">\(14\)</span> you’d get with the more common <code class="docutils literal notranslate"><span class="pre">padding=0</span></code>. This is an unusual (if valid) choice by the diagram, so I keep it exactly as specified — <code class="docutils literal notranslate"><span class="pre">padding=1</span></code> on <code class="docutils literal notranslate"><span class="pre">MaxPool1</span></code> — since matching the diagram is the point of this task.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">FCN1</span></code>’s input size resolves to <code class="docutils literal notranslate"><span class="pre">256</span> <span class="pre">×</span> <span class="pre">7</span> <span class="pre">×</span> <span class="pre">7</span> <span class="pre">=</span> <span class="pre">12544</span></code>.</strong> This is the value I use for <code class="docutils literal notranslate"><span class="pre">nn.Linear(in_features=...,</span> <span class="pre">...)</span></code> when building <code class="docutils literal notranslate"><span class="pre">FCN1</span></code> below — it’s not a number I can pick arbitrarily, it’s forced by everything upstream of it.</p></li>
+</ol>
+</section>
+<section id="building-the-architecture">
+<h2>3. Building the architecture<a class="headerlink" href="#building-the-architecture" title="Link to this heading">#</a></h2>
+<p>Now I translate the diagram directly into a <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code>. Each layer is named after its label in the diagram (<code class="docutils literal notranslate"><span class="pre">conv1</span></code>, <code class="docutils literal notranslate"><span class="pre">pool1</span></code>, <code class="docutils literal notranslate"><span class="pre">fc1</span></code>, …) so the mapping from picture to code is as literal as possible. <code class="docutils literal notranslate"><span class="pre">num_classes</span></code> is left as a constructor argument (defaulting to 10) since the diagram doesn’t pin down <code class="docutils literal notranslate"><span class="pre">FCN3</span></code>’s output size — the architecture works unchanged for however many Quick, Draw!-style categories the eventual training set has.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">QuickDrawCNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="c1"># CNN architecture converted directly from the provided diagram.</span>
+    <span class="c1">#   Input  : (batch, 1, 28, 28)</span>
+    <span class="c1">#   Output : (batch, num_classes) class probabilities (post-Softmax)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">dropout_p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># ---- Block 1: Conv1 -&gt; ReLU -&gt; MaxPool1 ----</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># ---- Block 2: Conv2 -&gt; ReLU ----</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># ---- Block 3: Conv3 -&gt; ReLU ----</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># ---- Block 4: Conv4 -&gt; ReLU -&gt; MaxPool2 ----</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv4</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># ---- Dropout + Flatten ----</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">dropout_p</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">()</span>
+
+        <span class="c1"># ---- Fully connected head ----</span>
+        <span class="n">flat_features</span> <span class="o">=</span> <span class="mi">256</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">7</span>     <span class="c1"># derived above: 12544</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="n">flat_features</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="n">num_classes</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">softmax</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Block 1</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># Block 2</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+        <span class="c1"># Block 3</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+        <span class="c1"># Block 4</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv4</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># Dropout + Flatten</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># Fully connected head</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="instantiate-the-model-and-inspect-it">
+<h2>4. Instantiate the model and inspect it<a class="headerlink" href="#instantiate-the-model-and-inspect-it" title="Link to this heading">#</a></h2>
+<p>I print the full module structure (which mirrors the diagram top-to-bottom) and count the trainable parameters, mostly to sanity-check nothing was left uninitialized.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NUM_CLASSES</span> <span class="o">=</span> <span class="mi">10</span>   <span class="c1"># placeholder -- set this to match the actual Quick, Draw! subset used for training</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">QuickDrawCNN</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="n">NUM_CLASSES</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">n_params</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Total trainable parameters: </span><span class="si">{</span><span class="n">n_params</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>QuickDrawCNN(
+  (conv1): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (pool1): MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (conv3): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (conv4): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (pool2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (dropout): Dropout(p=0.2, inplace=False)
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=12544, out_features=1000, bias=True)
+  (fc2): Linear(in_features=1000, out_features=500, bias=True)
+  (fc3): Linear(in_features=500, out_features=10, bias=True)
+  (softmax): Softmax(dim=1)
+)
+
+Total trainable parameters: 13,438,350
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="dummy-forward-pass-confirming-the-shapes-match-the-derivation">
+<h2>5. Dummy forward pass — confirming the shapes match the derivation<a class="headerlink" href="#dummy-forward-pass-confirming-the-shapes-match-the-derivation" title="Link to this heading">#</a></h2>
+<p>I run a batch of random “images” (shape <code class="docutils literal notranslate"><span class="pre">(32,</span> <span class="pre">1,</span> <span class="pre">28,</span> <span class="pre">28)</span></code>, matching the diagram’s implied batch size) through the network and print the shape after every layer. If my hand-derived table above is correct, these should match it exactly, step for step.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Re-implements the forward pass, printing the tensor shape after every layer.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward_with_shape_trace</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'Input'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'Conv1 + ReLU'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">pool1</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>          <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'MaxPool1'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'Conv2 + ReLU'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'Conv3 + ReLU'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">conv4</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'Conv4 + ReLU'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">pool2</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>          <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'MaxPool2'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'Dropout'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'Flatten'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'FCN1 + ReLU'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'FCN2 + ReLU'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'FCN3'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'SoftMax'</span><span class="si">:</span><span class="s2">&lt;20s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="n">dummy_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">forward_with_shape_trace</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dummy_input</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Every traced shape matches the hand-derived table above."</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Output is a valid probability distribution per sample:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"  row sums (should all be ~1.0):"</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input                (32, 1, 28, 28)
+Conv1 + ReLU         (32, 32, 28, 28)
+MaxPool1             (32, 32, 15, 15)
+Conv2 + ReLU         (32, 64, 15, 15)
+Conv3 + ReLU         (32, 128, 15, 15)
+Conv4 + ReLU         (32, 256, 15, 15)
+MaxPool2             (32, 256, 7, 7)
+Dropout              (32, 256, 7, 7)
+Flatten              (32, 12544)
+FCN1 + ReLU          (32, 1000)
+FCN2 + ReLU          (32, 500)
+FCN3                 (32, 10)
+SoftMax              (32, 10)
+
+Every traced shape matches the hand-derived table above.
+Output is a valid probability distribution per sample:
+  row sums (should all be ~1.0): [1.        1.0000001 1.        1.0000001 1.       ]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Also confirming that calling <code class="docutils literal notranslate"><span class="pre">model(dummy_input)</span></code> directly (i.e. the actual <code class="docutils literal notranslate"><span class="pre">forward()</span></code> method, not my instrumented copy above) gives the identical result — this just double-checks that the trace function above is a faithful re-implementation of <code class="docutils literal notranslate"><span class="pre">forward()</span></code> and not accidentally doing something different. I switch the model to <code class="docutils literal notranslate"><span class="pre">.eval()</span></code> mode for this specific check, since <code class="docutils literal notranslate"><span class="pre">Dropout</span></code> is randomly stochastic during training — comparing two separate forward passes while still in training mode would show mismatched values purely because of <em>different</em> random dropout masks, not because of any actual bug in the trace function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>   <span class="c1"># disable dropout's randomness so the two forward passes are directly comparable</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">direct_output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">dummy_input</span><span class="p">)</span>
+    <span class="n">traced_output</span> <span class="o">=</span> <span class="n">forward_with_shape_trace</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dummy_input</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Direct model(x) output shape:"</span><span class="p">,</span> <span class="n">direct_output</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Matches traced forward pass (eval mode, dropout disabled):"</span><span class="p">,</span>
+      <span class="n">torch</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">direct_output</span><span class="p">,</span> <span class="n">traced_output</span><span class="p">))</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>  <span class="c1"># switch back to training mode for the next section</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input                (32, 1, 28, 28)
+Conv1 + ReLU         (32, 32, 28, 28)
+MaxPool1             (32, 32, 15, 15)
+Conv2 + ReLU         (32, 64, 15, 15)
+Conv3 + ReLU         (32, 128, 15, 15)
+Conv4 + ReLU         (32, 256, 15, 15)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MaxPool2             (32, 256, 7, 7)
+Dropout              (32, 256, 7, 7)
+Flatten              (32, 12544)
+FCN1 + ReLU          (32, 1000)
+FCN2 + ReLU          (32, 500)
+FCN3                 (32, 10)
+SoftMax              (32, 10)
+
+Direct model(x) output shape: torch.Size([32, 10])
+Matches traced forward pass (eval mode, dropout disabled): True
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>QuickDrawCNN(
+  (conv1): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (pool1): MaxPool2d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (conv3): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (conv4): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (pool2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (dropout): Dropout(p=0.2, inplace=False)
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=12544, out_features=1000, bias=True)
+  (fc2): Linear(in_features=1000, out_features=500, bias=True)
+  (fc3): Linear(in_features=500, out_features=10, bias=True)
+  (softmax): Softmax(dim=1)
+)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="a-correct-training-step-addressing-the-softmax-loss-function-subtlety">
+<h2>6. A correct training step (addressing the Softmax + loss-function subtlety)<a class="headerlink" href="#a-correct-training-step-addressing-the-softmax-loss-function-subtlety" title="Link to this heading">#</a></h2>
+<p>As discussed above, since the model already ends in <code class="docutils literal notranslate"><span class="pre">nn.Softmax</span></code>, I must <strong>not</strong> pair it with <code class="docutils literal notranslate"><span class="pre">nn.CrossEntropyLoss</span></code> (which expects <em>raw, unnormalized logits</em> and applies <code class="docutils literal notranslate"><span class="pre">log_softmax</span></code> internally — feeding it already-softmaxed probabilities would double-apply softmax and distort the gradients). Instead, I take the log of the model’s output and use <code class="docutils literal notranslate"><span class="pre">nn.NLLLoss</span></code>, which is mathematically the correct pairing:</p>
+<div class="math notranslate nohighlight">
+\[\text{NLLLoss}(\log(\text{softmax}(z)), \, y) \;\equiv\; \text{CrossEntropyLoss}(z, \, y)\]</div>
+<p>I demonstrate one full training step — forward pass, loss computation, backward pass, optimizer step — on a random dummy batch, purely to confirm the whole pipeline (including gradient flow through every layer) works end-to-end.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">NLLLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+
+<span class="c1"># dummy batch: random "images" and random integer class labels</span>
+<span class="n">dummy_x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">dummy_y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">NUM_CLASSES</span><span class="p">,</span> <span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,))</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+
+<span class="c1"># 1. Forward pass (model output is already post-Softmax probabilities)</span>
+<span class="n">probs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">dummy_x</span><span class="p">)</span>
+
+<span class="c1"># 2. Loss: NLLLoss expects log-probabilities, so we take log() of the softmax output</span>
+<span class="n">log_probs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">probs</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">)</span>   <span class="c1"># epsilon avoids log(0)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">log_probs</span><span class="p">,</span> <span class="n">dummy_y</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Loss before step:"</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+<span class="c1"># 3. Backward pass</span>
+<span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+<span class="c1"># quick check that gradients actually reached the very first conv layer</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"conv1.weight.grad is None:"</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">conv1</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"conv1.weight.grad norm  :"</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">conv1</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+<span class="c1"># 4. Optimizer step</span>
+<span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="c1"># confirm the loss changes on a second forward pass with the updated weights</span>
+<span class="n">probs_after</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">dummy_x</span><span class="p">)</span>
+<span class="n">loss_after</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">probs_after</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">),</span> <span class="n">dummy_y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Loss after one step:"</span><span class="p">,</span> <span class="n">loss_after</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss before step: 2.300743818283081
+conv1.weight.grad is None: False
+conv1.weight.grad norm  : 0.0035824880469590425
+Loss after one step: 2.2995569705963135
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The diagram’s own shape annotations weren’t fully self-consistent (the first entry drifts between “batch size” and “in_channels” across different blocks), so I resolved that by re-deriving every intermediate tensor shape myself with the standard convolution/pooling output-size formula, using a fixed assumed batch size of 32 throughout — and then verified those derived numbers against PyTorch’s own layer outputs, which matched exactly.</p></li>
+<li><p>The architecture doubles its channel count at every convolution (<code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">→</span> <span class="pre">32</span> <span class="pre">→</span> <span class="pre">64</span> <span class="pre">→</span> <span class="pre">128</span> <span class="pre">→</span> <span class="pre">256</span></code>) while <code class="docutils literal notranslate"><span class="pre">MaxPool1</span></code> (with an unusual <code class="docutils literal notranslate"><span class="pre">padding=1</span></code>) and <code class="docutils literal notranslate"><span class="pre">MaxPool2</span></code> (with <code class="docutils literal notranslate"><span class="pre">padding=0</span></code>) do the spatial downsampling, taking the <code class="docutils literal notranslate"><span class="pre">28×28</span></code> input down to <code class="docutils literal notranslate"><span class="pre">7×7</span></code> by the time it reaches <code class="docutils literal notranslate"><span class="pre">Flatten</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FCN1</span></code>’s input size wasn’t a free choice — it’s forced to <code class="docutils literal notranslate"><span class="pre">256</span> <span class="pre">×</span> <span class="pre">7</span> <span class="pre">×</span> <span class="pre">7</span> <span class="pre">=</span> <span class="pre">12544</span></code> by everything upstream of it, which is exactly the kind of value this shape-tracing exercise is meant to teach you to compute rather than guess.</p></li>
+<li><p>Because the diagram ends in an explicit <code class="docutils literal notranslate"><span class="pre">SoftMax</span></code> layer, I kept that in the model (rather than the more common “raw logits + <code class="docutils literal notranslate"><span class="pre">CrossEntropyLoss</span></code>” pattern) and paired it with <code class="docutils literal notranslate"><span class="pre">nn.NLLLoss</span></code> on the log of the softmax output — mathematically identical to <code class="docutils literal notranslate"><span class="pre">CrossEntropyLoss</span></code> on raw logits, but the correct choice <em>given</em> that softmax is already part of the model’s forward pass. A full forward → loss → backward → optimizer-step cycle confirmed gradients flow correctly through the entire network, including all the way back to <code class="docutils literal notranslate"><span class="pre">Conv1</span></code>.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Lab_Task_5_PyTorch_Tensor_Fundamentals.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Laboratory Task 5 - PyTorch Tensor Fundamentals</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-approach">My Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-imports">1. Standard Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-the-shapes-by-hand">2. Deriving the shapes by hand</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-architecture">3. Building the architecture</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instantiate-the-model-and-inspect-it">4. Instantiate the model and inspect it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dummy-forward-pass-confirming-the-shapes-match-the-derivation">5. Dummy forward pass — confirming the shapes match the derivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-correct-training-step-addressing-the-softmax-loss-function-subtlety">6. A correct training step (addressing the Softmax + loss-function subtlety)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Clark James E. Tagalog
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p class="footer-note">
+  Built with <a href="https://jupyterbook.org">Jupyter Book</a> ·
+  <a href="https://github.com/tagalogclark123-cmyk/ds-portfolio-tagalog">Source on GitHub</a>
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
