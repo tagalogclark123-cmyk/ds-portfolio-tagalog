@@ -1,0 +1,974 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Laboratory Task 5 - PyTorch Tensor Fundamentals" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/Lab_Task_5_PyTorch_Tensor_Fundamentals.html" />
+<meta property="og:site_name" content="Data Science Portfolio" />
+<meta property="og:image" content="https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/_static/social-card.png" />
+<meta property="og:image:alt" content="Data Science Portfolio — lab reports on neural networks and PyTorch" />
+<meta name="description" content="Lab reports on neural networks and deep learning with PyTorch: forward and backward propagation, regression and tensor fundamentals." />
+<meta property="og:description" content="Lab reports on neural networks and deep learning with PyTorch: forward and backward propagation, regression and tensor fundamentals." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Laboratory Task 5 - PyTorch Tensor Fundamentals &#8212; Data Science Portfolio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=691b62aa" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Lab_Task_5_PyTorch_Tensor_Fundamentals';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="canonical" href="https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/Lab_Task_5_PyTorch_Tensor_Fundamentals.html" />
+    <link rel="icon" href="_static/favicon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Laboratory Task 4 - PyTorch Linear Regression" href="Lab_Task_4_PyTorch_Regression.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.svg" class="logo__image only-light" alt=""/>
+    <img src="_static/logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Data Science Portfolio</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tagalogclark123-cmyk" title="GitHub profile" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub profile</span></a>
+        </li>
+</ul></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to my portfolio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Neural Network Foundations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_2_Forward_Pass_and_Error.html">Lab 2 · Forward Pass &amp; Error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_3_Forward_and_Backward_Propagation.html">Lab 3 · Forward &amp; Backward Propagation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning with PyTorch</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_4_PyTorch_Regression.html">Lab 4 · PyTorch Regression</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lab 5 · Tensor Fundamentals</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/tagalogclark123-cmyk/ds-portfolio-tagalog/blob/main/Lab_Task_5_PyTorch_Tensor_Fundamentals.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+<a href="https://github.com/tagalogclark123-cmyk/ds-portfolio-tagalog" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Lab_Task_5_PyTorch_Tensor_Fundamentals.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Laboratory Task 5 - PyTorch Tensor Fundamentals</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> On this page </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-approach">My Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-standard-imports">1. Perform Standard Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-seed-function">2. <code class="docutils literal notranslate"><span class="pre">set_seed()</span></code> function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-numpy-array-arr">3. Create the NumPy array <code class="docutils literal notranslate"><span class="pre">arr</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-tensor-x-from-arr">4. Create a tensor <code class="docutils literal notranslate"><span class="pre">x</span></code> from <code class="docutils literal notranslate"><span class="pre">arr</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#change-the-dtype-of-x-from-int32-to-int64">5. Change the dtype of <code class="docutils literal notranslate"><span class="pre">x</span></code> from <code class="docutils literal notranslate"><span class="pre">int32</span></code> to <code class="docutils literal notranslate"><span class="pre">int64</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reshape-x-into-a-3x2-tensor">6. Reshape <code class="docutils literal notranslate"><span class="pre">x</span></code> into a 3x2 tensor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#return-the-right-hand-column-of-x">7. Return the right-hand column of <code class="docutils literal notranslate"><span class="pre">x</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#square-values-of-x-without-changing-x">8. Square values of <code class="docutils literal notranslate"><span class="pre">x</span></code>, without changing <code class="docutils literal notranslate"><span class="pre">x</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-tensor-y-matrix-multiplication-compatible-with-x">9. Create tensor <code class="docutils literal notranslate"><span class="pre">y</span></code>, matrix-multiplication-compatible with <code class="docutils literal notranslate"><span class="pre">x</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-product-of-x-and-y">10. Matrix product of <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="laboratory-task-5-pytorch-tensor-fundamentals">
+<h1>Laboratory Task 5 - PyTorch Tensor Fundamentals<a class="headerlink" href="#laboratory-task-5-pytorch-tensor-fundamentals" title="Link to this heading">#</a></h1>
+<div class="alert alert-block alert-success" style="font-family: Times New Roman">
+    <h4><strong>Laboratory Task 5</strong></h4>
+<p><strong>1. Perform Standard Imports</strong></p>
+<br>
+<p><strong>2. Create a function called <code class="docutils literal notranslate"><span class="pre">set_seed()</span></code> that accepts <code class="docutils literal notranslate"><span class="pre">seed:</span> <span class="pre">int</span></code> as a parameter, this function must return nothing but just set the seed to a certain value.</strong></p>
+<br>
+<p><strong>3. Create a NumPy array called “arr” that contains 6 random integers between 0 (inclusive) and 5 (exclusive), call the <code class="docutils literal notranslate"><span class="pre">set_seed()</span></code> function and use <code class="docutils literal notranslate"><span class="pre">42</span></code> as the seed parameter.</strong></p>
+<br>
+<p><strong>4. Create a tensor “x” from the array above</strong></p>
+<br>
+<p><strong>5. Change the dtype of x from <code class="docutils literal notranslate"><span class="pre">int32</span></code> to <code class="docutils literal notranslate"><span class="pre">int64</span></code></strong></p>
+<br>
+<p><strong>6. Reshape <code class="docutils literal notranslate"><span class="pre">x</span></code> into a 3x2 tensor</strong> <br> There are several ways to do this.</p>
+<br>
+<p><strong>7. Return the right-hand column of tensor <code class="docutils literal notranslate"><span class="pre">x</span></code></strong></p>
+<br>
+<p><strong>8. Without changing x, return a tensor of square values of <code class="docutils literal notranslate"><span class="pre">x</span></code></strong> <br> There are several ways to do this.</p>
+<br>
+<p><strong>9. Create a tensor <code class="docutils literal notranslate"><span class="pre">y</span></code> with the same number of elements as <code class="docutils literal notranslate"><span class="pre">x</span></code>, that can be matrix-multiplied with <code class="docutils literal notranslate"><span class="pre">x</span></code></strong> <br> Use PyTorch directly (not NumPy) to create a tensor of random integers between 0 (inclusive) and 5 (exclusive). Use 42 as seed. <br> Think about what shape it should have to permit matrix multiplication.</p>
+<br>
+<p><strong>10. Find the matrix product of <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>.</strong></p>
+</div><section id="my-approach">
+<h2>My Approach<a class="headerlink" href="#my-approach" title="Link to this heading">#</a></h2>
+<p>This task chains together most of the tensor fundamentals from the lecture notebook — creation from NumPy, dtypes, reshaping, indexing, element-wise math, and matrix multiplication — into one worked example. I’ll go step by step in the exact order given, explaining the reasoning behind each choice (especially wherever “there are several ways to do this” is called out, since picking one deliberately and knowing the alternatives is the actual point of those steps).</p>
+<p>A few things I want to be careful about before writing any code:</p>
+<ul class="simple">
+<li><p><strong>Reproducibility across two different random generators.</strong> Step 3 needs a <em>NumPy</em> random array, and step 9 needs a <em>PyTorch</em> random tensor — both seeded with 42. NumPy and PyTorch keep their own, independent random number generators, so a single seeding call has to cover both if <code class="docutils literal notranslate"><span class="pre">set_seed()</span></code> is going to make <em>any</em> random operation in this notebook reproducible, regardless of which library generates it. So <code class="docutils literal notranslate"><span class="pre">set_seed()</span></code> will seed both <code class="docutils literal notranslate"><span class="pre">numpy.random</span></code> and <code class="docutils literal notranslate"><span class="pre">torch</span></code>.</p></li>
+<li><p><strong>Platform-dependent default integer dtype.</strong> <code class="docutils literal notranslate"><span class="pre">np.random.randint()</span></code> returns platform-dependent integers — on Windows this defaults to 32-bit (<code class="docutils literal notranslate"><span class="pre">int32</span></code>), but on Linux/macOS it’s usually 64-bit (<code class="docutils literal notranslate"><span class="pre">int64</span></code>). Step 5 explicitly frames the task as “change the dtype of x from <code class="docutils literal notranslate"><span class="pre">int32</span></code> to <code class="docutils literal notranslate"><span class="pre">int64</span></code>”, so to make this notebook behave the same way regardless of which OS it’s run on, I explicitly cast <code class="docutils literal notranslate"><span class="pre">arr</span></code> to <code class="docutils literal notranslate"><span class="pre">int32</span></code> right after creating it. That way step 5’s conversion to <code class="docutils literal notranslate"><span class="pre">int64</span></code> is a real, visible dtype change here too, not a no-op.</p></li>
+<li><p><strong>Shape of <code class="docutils literal notranslate"><span class="pre">y</span></code> for matrix multiplication.</strong> <code class="docutils literal notranslate"><span class="pre">x</span></code> ends up as a <span class="math notranslate nohighlight">\(3\times2\)</span> tensor (6 elements). For <span class="math notranslate nohighlight">\(x \times y\)</span> to be valid matrix multiplication, <span class="math notranslate nohighlight">\(y\)</span>’s number of <em>rows</em> must equal <span class="math notranslate nohighlight">\(x\)</span>’s number of <em>columns</em> — i.e. <span class="math notranslate nohighlight">\(y\)</span> must have 2 rows. Combined with the requirement that <span class="math notranslate nohighlight">\(y\)</span> has the <em>same number of elements as</em> <code class="docutils literal notranslate"><span class="pre">x</span></code> (6), that pins down <span class="math notranslate nohighlight">\(y\)</span>’s shape uniquely: <span class="math notranslate nohighlight">\(2 \times 3\)</span> (<span class="math notranslate nohighlight">\(2 \times 3 = 6\)</span>). This also conveniently produces a square <span class="math notranslate nohighlight">\(3\times3\)</span> result for <span class="math notranslate nohighlight">\(x \times y\)</span>, which is a nice, easy shape to sanity-check by eye.</p></li>
+</ul>
+<p>With that groundwork laid out, here’s the notebook.</p>
+</section>
+<section id="perform-standard-imports">
+<h2>1. Perform Standard Imports<a class="headerlink" href="#perform-standard-imports" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="set-seed-function">
+<h2>2. <code class="docutils literal notranslate"><span class="pre">set_seed()</span></code> function<a class="headerlink" href="#set-seed-function" title="Link to this heading">#</a></h2>
+<p>As discussed above, this needs to seed <strong>both</strong> NumPy’s and PyTorch’s random number generators, since the notebook uses both <code class="docutils literal notranslate"><span class="pre">np.random</span></code> (step 3) and <code class="docutils literal notranslate"><span class="pre">torch</span></code> (step 9) for randomness. The function returns nothing — it just has the <em>side effect</em> of putting both generators into a reproducible state.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Seed every random number generator used in this notebook so that every</span>
+<span class="c1"># subsequent "random" operation (NumPy or PyTorch) is reproducible.</span>
+<span class="c1">#</span>
+<span class="c1"># Parameters</span>
+<span class="c1"># ----------</span>
+<span class="c1"># seed : int</span>
+<span class="c1">#     The seed value to use for both NumPy's and PyTorch's RNGs.</span>
+<span class="c1">#</span>
+<span class="c1"># Returns</span>
+<span class="c1"># -------</span>
+<span class="c1"># None</span>
+<span class="c1">#     This function has no return value -- it only has the side effect</span>
+<span class="c1">#     of setting global RNG state.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+
+<span class="c1"># quick smoke test: calling it shouldn't raise, and shouldn't return anything</span>
+<span class="n">return_value</span> <span class="o">=</span> <span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"set_seed(42) returned:"</span><span class="p">,</span> <span class="n">return_value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>set_seed(42) returned: None
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-the-numpy-array-arr">
+<h2>3. Create the NumPy array <code class="docutils literal notranslate"><span class="pre">arr</span></code><a class="headerlink" href="#create-the-numpy-array-arr" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">np.random.randint(low,</span> <span class="pre">high,</span> <span class="pre">size)</span></code> draws <code class="docutils literal notranslate"><span class="pre">size</span></code> integers from the half-open interval <code class="docutils literal notranslate"><span class="pre">[low,</span> <span class="pre">high)</span></code> — so <code class="docutils literal notranslate"><span class="pre">low=0,</span> <span class="pre">high=5</span></code> gives integers from <code class="docutils literal notranslate"><span class="pre">{0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4}</span></code>, matching “between 0 (inclusive) and 5 (exclusive)”. I call <code class="docutils literal notranslate"><span class="pre">set_seed(42)</span></code> immediately beforehand so the exact 6 numbers drawn are reproducible.</p>
+<p>As noted above, I then explicitly cast the result to <code class="docutils literal notranslate"><span class="pre">int32</span></code>. This isn’t strictly required by NumPy (which might already hand back <code class="docutils literal notranslate"><span class="pre">int64</span></code> depending on the OS), but it guarantees the very next step — converting <code class="docutils literal notranslate"><span class="pre">int32</span></code> to <code class="docutils literal notranslate"><span class="pre">int64</span></code> — is meaningful on any machine that runs this notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"arr      ="</span><span class="p">,</span> <span class="n">arr</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dtype    ="</span><span class="p">,</span> <span class="n">arr</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"shape    ="</span><span class="p">,</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>arr      = [3 4 2 4 4 1]
+dtype    = int32
+shape    = (6,)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-a-tensor-x-from-arr">
+<h2>4. Create a tensor <code class="docutils literal notranslate"><span class="pre">x</span></code> from <code class="docutils literal notranslate"><span class="pre">arr</span></code><a class="headerlink" href="#create-a-tensor-x-from-arr" title="Link to this heading">#</a></h2>
+<p>The lecture notebook introduced three ways to build a tensor from a NumPy array: <code class="docutils literal notranslate"><span class="pre">torch.from_numpy()</span></code>, <code class="docutils literal notranslate"><span class="pre">torch.as_tensor()</span></code> (both of which <em>share memory</em> with the original array), and <code class="docutils literal notranslate"><span class="pre">torch.tensor()</span></code> (which always copies). Since I don’t need <code class="docutils literal notranslate"><span class="pre">arr</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> to stay linked here — and copying is the safer default when there’s no specific reason to share memory — I use <code class="docutils literal notranslate"><span class="pre">torch.from_numpy()</span></code> mainly to keep this consistent with how the lecture introduced NumPy→tensor conversion, while noting the distinction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dtype:"</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"tensor type:"</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">type</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([3, 4, 2, 4, 4, 1], dtype=torch.int32)
+dtype: torch.int32
+tensor type: torch.IntTensor
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="change-the-dtype-of-x-from-int32-to-int64">
+<h2>5. Change the dtype of <code class="docutils literal notranslate"><span class="pre">x</span></code> from <code class="docutils literal notranslate"><span class="pre">int32</span></code> to <code class="docutils literal notranslate"><span class="pre">int64</span></code><a class="headerlink" href="#change-the-dtype-of-x-from-int32-to-int64" title="Link to this heading">#</a></h2>
+<p>The lecture notebook is explicit about this: don’t write <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">torch.tensor(x,</span> <span class="pre">dtype=torch.int64)</span></code> (that raises a warning/error about improper tensor cloning). Instead, use the tensor’s own <code class="docutils literal notranslate"><span class="pre">.type()</span></code> method, which returns a new tensor with the requested dtype.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Before:"</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"After: "</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Before: torch.int32
+After:  torch.int64
+tensor([3, 4, 2, 4, 4, 1])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="reshape-x-into-a-3x2-tensor">
+<h2>6. Reshape <code class="docutils literal notranslate"><span class="pre">x</span></code> into a 3x2 tensor<a class="headerlink" href="#reshape-x-into-a-3x2-tensor" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">arr</span></code>/<code class="docutils literal notranslate"><span class="pre">x</span></code> has 6 elements, and <span class="math notranslate nohighlight">\(3 \times 2 = 6\)</span>, so this reshape is valid. PyTorch offers a couple of essentially equivalent ways to do this:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">.view(3,</span> <span class="pre">2)</span></code></strong> — returns a new tensor that is a <em>view</em> on the same underlying memory (fast, no copy, but only works when the data is contiguous in memory).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">.reshape(3,</span> <span class="pre">2)</span></code></strong> — returns a view when possible, and transparently falls back to making a copy when a view isn’t possible (e.g. after certain operations that leave the data non-contiguous). It’s the more “forgiving” option.</p></li>
+</ul>
+<p>Either works here since <code class="docutils literal notranslate"><span class="pre">x</span></code>’s data is contiguous, so I’ll demonstrate both and confirm they give identical results before settling on one for the rest of the notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_view</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">x_reshape</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"x.view(3,2)    =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">x_view</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"x.reshape(3,2) =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">x_reshape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Same values?"</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">x_view</span><span class="p">,</span> <span class="n">x_reshape</span><span class="p">))</span>
+
+<span class="c1"># Commit to one going forward -- reshape() is the safer general-purpose choice</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">x is now:</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"x.shape ="</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x.view(3,2)    =
+ tensor([[3, 4],
+        [2, 4],
+        [4, 1]])
+x.reshape(3,2) =
+ tensor([[3, 4],
+        [2, 4],
+        [4, 1]])
+Same values? True
+
+x is now:
+ tensor([[3, 4],
+        [2, 4],
+        [4, 1]])
+x.shape = torch.Size([3, 2])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="return-the-right-hand-column-of-x">
+<h2>7. Return the right-hand column of <code class="docutils literal notranslate"><span class="pre">x</span></code><a class="headerlink" href="#return-the-right-hand-column-of-x" title="Link to this heading">#</a></h2>
+<p>With <code class="docutils literal notranslate"><span class="pre">x</span></code> shaped <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">2)</span></code>, “the right-hand column” is column index <code class="docutils literal notranslate"><span class="pre">1</span></code> (the last of the two columns). Using the slicing syntax <code class="docutils literal notranslate"><span class="pre">x[:,</span> <span class="pre">1]</span></code> means “every row (<code class="docutils literal notranslate"><span class="pre">:</span></code>), column <code class="docutils literal notranslate"><span class="pre">1</span></code>” — exactly matching the indexing example already shown in the lecture notebook for a differently-valued <code class="docutils literal notranslate"><span class="pre">(3,2)</span></code> tensor.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">right_col</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Right-hand column x[:, 1] ="</span><span class="p">,</span> <span class="n">right_col</span><span class="p">)</span>
+
+<span class="c1"># Note: slicing with 1: instead of a bare 1 keeps it as a column vector (3,1)</span>
+<span class="c1"># rather than flattening it to a 1D tensor of shape (3,) -- useful to know,</span>
+<span class="c1"># even though the task just asks for "the right-hand column" (either is valid).</span>
+<span class="n">right_col_as_column</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">As a (3,1) column tensor:</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">right_col_as_column</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Right-hand column x[:, 1] = tensor([4, 4, 1])
+
+As a (3,1) column tensor:
+ tensor([[4],
+        [4],
+        [1]])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="square-values-of-x-without-changing-x">
+<h2>8. Square values of <code class="docutils literal notranslate"><span class="pre">x</span></code>, without changing <code class="docutils literal notranslate"><span class="pre">x</span></code><a class="headerlink" href="#square-values-of-x-without-changing-x" title="Link to this heading">#</a></h2>
+<p>“Several ways to do this” — all of the following compute the element-wise square <strong>without modifying <code class="docutils literal notranslate"><span class="pre">x</span></code> in place</strong> (none of them use an in-place, underscore-suffixed method like <code class="docutils literal notranslate"><span class="pre">.pow_()</span></code>, and none of them use the <code class="docutils literal notranslate"><span class="pre">*=</span></code>/<code class="docutils literal notranslate"><span class="pre">**=</span></code> in-place operators):</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">**</span> <span class="pre">2</span></code> — Python’s built-in power operator, works element-wise on tensors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x.pow(2)</span></code> — the tensor method equivalent of <code class="docutils literal notranslate"><span class="pre">torch.pow(x,</span> <span class="pre">2)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.square(x)</span></code> — a dedicated PyTorch function for squaring.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">*</span> <span class="pre">x</span></code> — plain element-wise multiplication of <code class="docutils literal notranslate"><span class="pre">x</span></code> with itself.</p></li>
+</ol>
+<p>I compute all four and confirm they agree with each other, and then confirm <code class="docutils literal notranslate"><span class="pre">x</span></code> itself is untouched.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">squared_pow_operator</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">squared_pow_method</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">squared_torch_square</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">squared_self_multiply</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"x ** 2         =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">squared_pow_operator</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"x.pow(2)       =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">squared_pow_method</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"torch.square(x)=</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">squared_torch_square</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"x * x          =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">squared_self_multiply</span><span class="p">)</span>
+
+<span class="n">all_agree</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">squared_pow_operator</span><span class="p">,</span> <span class="n">squared_pow_method</span><span class="p">)</span>
+    <span class="ow">and</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">squared_pow_method</span><span class="p">,</span> <span class="n">squared_torch_square</span><span class="p">)</span>
+    <span class="ow">and</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">squared_torch_square</span><span class="p">,</span> <span class="n">squared_self_multiply</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">All four methods agree:"</span><span class="p">,</span> <span class="n">all_agree</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">x is unchanged:</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x ** 2         =
+ tensor([[ 9, 16],
+        [ 4, 16],
+        [16,  1]])
+x.pow(2)       =
+ tensor([[ 9, 16],
+        [ 4, 16],
+        [16,  1]])
+torch.square(x)=
+ tensor([[ 9, 16],
+        [ 4, 16],
+        [16,  1]])
+x * x          =
+ tensor([[ 9, 16],
+        [ 4, 16],
+        [16,  1]])
+
+All four methods agree: True
+
+x is unchanged:
+ tensor([[3, 4],
+        [2, 4],
+        [4, 1]])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-tensor-y-matrix-multiplication-compatible-with-x">
+<h2>9. Create tensor <code class="docutils literal notranslate"><span class="pre">y</span></code>, matrix-multiplication-compatible with <code class="docutils literal notranslate"><span class="pre">x</span></code><a class="headerlink" href="#create-tensor-y-matrix-multiplication-compatible-with-x" title="Link to this heading">#</a></h2>
+<p>As reasoned above: <code class="docutils literal notranslate"><span class="pre">x</span></code> is <span class="math notranslate nohighlight">\(3\times2\)</span>, and matrix multiplication <span class="math notranslate nohighlight">\(x \times y\)</span> requires the number of columns of <code class="docutils literal notranslate"><span class="pre">x</span></code> (2) to equal the number of rows of <code class="docutils literal notranslate"><span class="pre">y</span></code>. Combined with “the same number of elements as <code class="docutils literal notranslate"><span class="pre">x</span></code>” (6 elements total), <code class="docutils literal notranslate"><span class="pre">y</span></code> must be shaped <span class="math notranslate nohighlight">\(2\times3\)</span> (<span class="math notranslate nohighlight">\(2 \times 3 = 6\)</span>).</p>
+<p>This time the randomness must come from <strong>PyTorch directly</strong> (<code class="docutils literal notranslate"><span class="pre">torch.randint</span></code>), not NumPy — so I call <code class="docutils literal notranslate"><span class="pre">set_seed(42)</span></code> again immediately before it, which reseeds <code class="docutils literal notranslate"><span class="pre">torch</span></code>’s generator (as well as NumPy’s, which is harmless here since I’m not drawing any more NumPy randomness).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"y =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"y.shape ="</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">" (x.shape ="</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">")"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"y has the same number of elements as x:"</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">==</span> <span class="n">x</span><span class="o">.</span><span class="n">numel</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Inner dimensions match for x @ y: x.shape[1] ="</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">" y.shape[0] ="</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>y =
+ tensor([[2, 2, 1],
+        [4, 1, 0]])
+y.shape = torch.Size([2, 3])  (x.shape = torch.Size([3, 2]) )
+y has the same number of elements as x: True
+Inner dimensions match for x @ y: x.shape[1] = 2  y.shape[0] = 2
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="matrix-product-of-x-and-y">
+<h2>10. Matrix product of <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code><a class="headerlink" href="#matrix-product-of-x-and-y" title="Link to this heading">#</a></h2>
+<p>As shown in the lecture notebook, 2D matrix multiplication can be written as <code class="docutils literal notranslate"><span class="pre">torch.mm(a,</span> <span class="pre">b)</span></code>, <code class="docutils literal notranslate"><span class="pre">a.mm(b)</span></code>, or simply <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&#64;</span> <span class="pre">b</span></code> — all three are equivalent for plain 2D tensors like these (no broadcasting is needed here, so <code class="docutils literal notranslate"><span class="pre">torch.matmul</span></code>/<code class="docutils literal notranslate"><span class="pre">&#64;</span></code> and <code class="docutils literal notranslate"><span class="pre">torch.mm</span></code> behave identically). The result of a <span class="math notranslate nohighlight">\((3\times2) \times (2\times3)\)</span> multiplication is a <span class="math notranslate nohighlight">\((3\times3)\)</span> tensor.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">product_mm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">product_method</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">product_at</span> <span class="o">=</span> <span class="n">x</span> <span class="o">@</span> <span class="n">y</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"torch.mm(x, y) =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">product_mm</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">x.mm(y)        =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">product_method</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">x @ y          =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">product_at</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">All three agree:"</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">product_mm</span><span class="p">,</span> <span class="n">product_method</span><span class="p">)</span> <span class="ow">and</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">product_method</span><span class="p">,</span> <span class="n">product_at</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Result shape:"</span><span class="p">,</span> <span class="n">product_mm</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">" (expected (3,3) from a (3,2) x (2,3) multiplication)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.mm(x, y) =
+ tensor([[22, 10,  3],
+        [20,  8,  2],
+        [12,  9,  4]])
+
+x.mm(y)        =
+ tensor([[22, 10,  3],
+        [20,  8,  2],
+        [12,  9,  4]])
+
+x @ y          =
+ tensor([[22, 10,  3],
+        [20,  8,  2],
+        [12,  9,  4]])
+
+All three agree: True
+Result shape: torch.Size([3, 3])  (expected (3,3) from a (3,2) x (2,3) multiplication)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">set_seed()</span></code> seeds <strong>both</strong> NumPy’s and PyTorch’s random number generators in one call, which mattered because this task draws randomness from each library at a different point (<code class="docutils literal notranslate"><span class="pre">np.random.randint</span></code> for <code class="docutils literal notranslate"><span class="pre">arr</span></code>, <code class="docutils literal notranslate"><span class="pre">torch.randint</span></code> for <code class="docutils literal notranslate"><span class="pre">y</span></code>) and both needed to be reproducible with the same seed value, <code class="docutils literal notranslate"><span class="pre">42</span></code>.</p></li>
+<li><p>Converting between NumPy and PyTorch, then between dtypes, showed why the lecture notebook warns against <code class="docutils literal notranslate"><span class="pre">torch.tensor(x,</span> <span class="pre">dtype=...)</span></code> for changing an existing tensor’s dtype — <code class="docutils literal notranslate"><span class="pre">.type()</span></code> is the correct tool for that job.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.view()</span></code> and <code class="docutils literal notranslate"><span class="pre">.reshape()</span></code> produced identical results for reshaping <code class="docutils literal notranslate"><span class="pre">x</span></code> into <span class="math notranslate nohighlight">\(3\times2\)</span>, since the underlying data was contiguous; <code class="docutils literal notranslate"><span class="pre">.reshape()</span></code> is the more robust default to reach for in general, since it degrades gracefully to a copy when a view isn’t possible.</p></li>
+<li><p>Indexing with <code class="docutils literal notranslate"><span class="pre">x[:,</span> <span class="pre">1]</span></code> pulled out the right-hand column as a 1D tensor, while <code class="docutils literal notranslate"><span class="pre">x[:,</span> <span class="pre">1:]</span></code> gives the same values as a <span class="math notranslate nohighlight">\((3,1)\)</span> column — both are legitimate answers depending on whether a flattened or a column-shaped result is wanted downstream.</p></li>
+<li><p>Squaring <code class="docutils literal notranslate"><span class="pre">x</span></code> four different ways (<code class="docutils literal notranslate"><span class="pre">**</span></code>, <code class="docutils literal notranslate"><span class="pre">.pow()</span></code>, <code class="docutils literal notranslate"><span class="pre">torch.square()</span></code>, self-multiplication) all agreed and left <code class="docutils literal notranslate"><span class="pre">x</span></code> itself untouched, since none of them were in-place operations.</p></li>
+<li><p>Getting <code class="docutils literal notranslate"><span class="pre">y</span></code>’s shape right came down to two constraints working together: “same number of elements as <code class="docutils literal notranslate"><span class="pre">x</span></code>” (6) and “matrix-multiplication-compatible with <code class="docutils literal notranslate"><span class="pre">x</span></code>” (needs 2 rows to match <code class="docutils literal notranslate"><span class="pre">x</span></code>’s 2 columns) — together these forced <code class="docutils literal notranslate"><span class="pre">y</span></code> to be exactly <span class="math notranslate nohighlight">\(2\times3\)</span>, with no other shape satisfying both.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.mm(x,</span> <span class="pre">y)</span></code>, <code class="docutils literal notranslate"><span class="pre">x.mm(y)</span></code>, and <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&#64;</span> <span class="pre">y</span></code> all produced the same <span class="math notranslate nohighlight">\(3\times3\)</span> product, consistent with the <span class="math notranslate nohighlight">\((3,2) \times (2,3) \rightarrow (3,3)\)</span> shape rule for matrix multiplication.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Lab_Task_4_PyTorch_Regression.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Laboratory Task 4 - PyTorch Linear Regression</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-approach">My Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perform-standard-imports">1. Perform Standard Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-seed-function">2. <code class="docutils literal notranslate"><span class="pre">set_seed()</span></code> function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-numpy-array-arr">3. Create the NumPy array <code class="docutils literal notranslate"><span class="pre">arr</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-tensor-x-from-arr">4. Create a tensor <code class="docutils literal notranslate"><span class="pre">x</span></code> from <code class="docutils literal notranslate"><span class="pre">arr</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#change-the-dtype-of-x-from-int32-to-int64">5. Change the dtype of <code class="docutils literal notranslate"><span class="pre">x</span></code> from <code class="docutils literal notranslate"><span class="pre">int32</span></code> to <code class="docutils literal notranslate"><span class="pre">int64</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reshape-x-into-a-3x2-tensor">6. Reshape <code class="docutils literal notranslate"><span class="pre">x</span></code> into a 3x2 tensor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#return-the-right-hand-column-of-x">7. Return the right-hand column of <code class="docutils literal notranslate"><span class="pre">x</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#square-values-of-x-without-changing-x">8. Square values of <code class="docutils literal notranslate"><span class="pre">x</span></code>, without changing <code class="docutils literal notranslate"><span class="pre">x</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-tensor-y-matrix-multiplication-compatible-with-x">9. Create tensor <code class="docutils literal notranslate"><span class="pre">y</span></code>, matrix-multiplication-compatible with <code class="docutils literal notranslate"><span class="pre">x</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-product-of-x-and-y">10. Matrix product of <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Clark Tagalog
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p class="footer-note">
+  Built with <a href="https://jupyterbook.org">Jupyter Book</a> ·
+  <a href="https://github.com/tagalogclark123-cmyk/ds-portfolio-tagalog">Source on GitHub</a>
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

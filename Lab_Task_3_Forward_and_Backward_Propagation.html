@@ -1,0 +1,1084 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Laboratory Task 3 - Forward and Backward Propagation" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/Lab_Task_3_Forward_and_Backward_Propagation.html" />
+<meta property="og:site_name" content="Data Science Portfolio" />
+<meta property="og:image" content="https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/_static/social-card.png" />
+<meta property="og:image:alt" content="Data Science Portfolio — lab reports on neural networks and PyTorch" />
+<meta name="description" content="Lab reports on neural networks and deep learning with PyTorch: forward and backward propagation, regression and tensor fundamentals." />
+<meta property="og:description" content="Lab reports on neural networks and deep learning with PyTorch: forward and backward propagation, regression and tensor fundamentals." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>Laboratory Task 3 - Forward and Backward Propagation &#8212; Data Science Portfolio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=691b62aa" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Lab_Task_3_Forward_and_Backward_Propagation';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="canonical" href="https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/Lab_Task_3_Forward_and_Backward_Propagation.html" />
+    <link rel="icon" href="_static/favicon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Laboratory Task 4 - PyTorch Linear Regression" href="Lab_Task_4_PyTorch_Regression.html" />
+    <link rel="prev" title="Laboratory Task 2 - Forward Pass and Error Computation" href="Lab_Task_2_Forward_Pass_and_Error.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.svg" class="logo__image only-light" alt=""/>
+    <img src="_static/logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Data Science Portfolio</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tagalogclark123-cmyk" title="GitHub profile" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub profile</span></a>
+        </li>
+</ul></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to my portfolio
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Neural Network Foundations</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_2_Forward_Pass_and_Error.html">Lab 2 · Forward Pass &amp; Error</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lab 3 · Forward &amp; Backward Propagation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning with PyTorch</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_4_PyTorch_Regression.html">Lab 4 · PyTorch Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_5_PyTorch_Tensor_Fundamentals.html">Lab 5 · Tensor Fundamentals</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/tagalogclark123-cmyk/ds-portfolio-tagalog/blob/main/Lab_Task_3_Forward_and_Backward_Propagation.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+<a href="https://github.com/tagalogclark123-cmyk/ds-portfolio-tagalog" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Lab_Task_3_Forward_and_Backward_Propagation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Laboratory Task 3 - Forward and Backward Propagation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> On this page </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-approach">My Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-forward-pass-recap-from-lab-2">Step 1 — Forward pass (recap from Lab 2)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-backward-pass">Step 2 — Backward pass</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-update-the-parameters-gradient-descent-step">Step 3 — Update the parameters (gradient descent step)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-verify-the-gradients-numerically-gradient-checking">Step 4 — Verify the gradients numerically (gradient checking)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-cross-check-with-pytorch-autograd">Step 5 — Cross-check with PyTorch autograd</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-training-loop-repeat-forward-backward-update">Step 6 — Training loop: repeat forward + backward + update</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="laboratory-task-3-forward-and-backward-propagation">
+<h1>Laboratory Task 3 - Forward and Backward Propagation<a class="headerlink" href="#laboratory-task-3-forward-and-backward-propagation" title="Link to this heading">#</a></h1>
+<div class="alert alert-block alert-success" style="font-family: Times New Roman">
+    <h4><strong>Laboratory Task 3</strong></h4>
+<p style="font-family:Times New Roman; text-align:justify; font-size:15px">
+    <b>Instruction:</b> Perform a forward and backward propagation in python using the inputs from <b>Laboratory Task 2</b>
+</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># use relu as the activation function.</span>
+
+<span class="c1"># learning rate</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="mf">0.001</span>
+</pre></div>
+</div>
+</div><section id="my-approach">
+<h2>My Approach<a class="headerlink" href="#my-approach" title="Link to this heading">#</a></h2>
+<p>Lab 2 already did the <strong>forward</strong> half of this task, so I reuse that architecture (3 inputs → 2 ReLU hidden units → 1 ReLU output unit) and the same weights. What’s new here is the <strong>backward</strong> pass: using the error computed in Lab 2 to figure out how each weight should change, then actually applying that change with the given learning rate <code class="docutils literal notranslate"><span class="pre">lr</span> <span class="pre">=</span> <span class="pre">0.001</span></code>.</p>
+<p>I’m going to work through this in the same order the chain rule naturally suggests — output layer first, then hidden layer — because the hidden-layer error <em>depends on</em> the output-layer error (that’s precisely why it’s called <em>back</em>-propagation: the error flows backwards, opposite to the forward pass).</p>
+<p><strong>Loss function.</strong> The lecture material defines the output error signal as <span class="math notranslate nohighlight">\(\delta = \hat{y} - y\)</span>. This is exactly the gradient <span class="math notranslate nohighlight">\(\frac{\partial E}{\partial \hat{y}}\)</span> of the loss <span class="math notranslate nohighlight">\(E = \tfrac{1}{2}(y - \hat{y})^2\)</span>, since
+$<span class="math notranslate nohighlight">\(\frac{\partial E}{\partial \hat{y}} = \frac{\partial}{\partial \hat{y}}\left[\tfrac12(y-\hat{y})^2\right] = -(y - \hat{y}) = \hat{y} - y.\)</span><span class="math notranslate nohighlight">\(
+So I'll use \)</span>E = \tfrac12(y-\hat{y})^2<span class="math notranslate nohighlight">\( as the loss being minimized — it's consistent with the \)</span>\delta$ formula already given.</p>
+<p><strong>Activation derivative.</strong> The original notes use sigmoid (<span class="math notranslate nohighlight">\(\sigma'(Z) = A(1-A)\)</span>), but this task explicitly asks for <strong>ReLU</strong>. The derivative of ReLU is a step function:
+$<span class="math notranslate nohighlight">\(f'(Z) = \begin{cases} 1 &amp; Z &gt; 0 \\ 0 &amp; Z \le 0\end{cases}\)</span><span class="math notranslate nohighlight">\(
+So everywhere the notes used \)</span>\sigma’(Z_h)$, I substitute this ReLU derivative instead.</p>
+<p><strong>Chain rule, output layer.</strong> The output is <span class="math notranslate nohighlight">\(\hat{y} = f(Z_o)\)</span> where <span class="math notranslate nohighlight">\(Z_o = HW_o + \theta_o\)</span>. By the chain rule:
+$<span class="math notranslate nohighlight">\(\delta_o = \frac{\partial E}{\partial \hat y}\cdot\frac{\partial \hat y}{\partial Z_o} = (\hat{y}-y)\cdot f'(Z_o)\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(\frac{\partial E}{\partial W_o} = H^T \delta_o, \qquad \frac{\partial E}{\partial \theta_o} = \delta_o\)</span>$</p>
+<p><strong>Chain rule, hidden layer.</strong> The error has to travel backward <em>through</em> <span class="math notranslate nohighlight">\(W_o\)</span> to reach the hidden layer, then get multiplied by how sensitive each hidden unit’s own activation is to its own pre-activation:
+$<span class="math notranslate nohighlight">\(\delta_h = (\delta_o \, W_o^T) \odot f'(Z_h)\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(\frac{\partial E}{\partial W_h} = x^T \delta_h, \qquad \frac{\partial E}{\partial \theta_h} = \delta_h\)</span>$</p>
+<p><strong>Update rule (gradient descent).</strong> Every parameter moves a small step <em>opposite</em> its gradient, scaled by the learning rate:
+$<span class="math notranslate nohighlight">\(W \leftarrow W - \alpha\frac{\partial E}{\partial W}, \qquad \theta \leftarrow \theta - \alpha\frac{\partial E}{\partial \theta}\)</span>$</p>
+<p>Plan for the notebook:</p>
+<ol class="arabic simple">
+<li><p>Rebuild the forward pass (from Lab 2) and cache every intermediate value needed for backprop.</p></li>
+<li><p>Implement the backward pass step by step, printing every intermediate gradient so the chain rule is visible.</p></li>
+<li><p>Apply the parameter update and show the new weights.</p></li>
+<li><p><strong>Verify</strong> the analytic gradients with numerical (finite-difference) gradient checking — the standard way to catch backprop bugs.</p></li>
+<li><p><strong>Cross-check</strong> everything against PyTorch’s <code class="docutils literal notranslate"><span class="pre">autograd</span></code>, which computes gradients completely independently of my hand-derived formulas.</p></li>
+<li><p>Run several epochs of training on this single example to see the loss actually go down, tying together forward + backward + update into one training loop.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># ---- Given data (same as Lab 2) ---------------------------------------</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="n">W_h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.4</span><span class="p">,</span>  <span class="mf">0.1</span><span class="p">],</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span>
+<span class="p">])</span>
+<span class="n">theta_h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+
+<span class="n">W_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">])</span>
+<span class="n">theta_o</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="n">lr</span> <span class="o">=</span> <span class="mf">0.001</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">relu</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="c1"># Derivative of ReLU: 1 where z &gt; 0, else 0.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">relu_grad</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Learning rate lr ="</span><span class="p">,</span> <span class="n">lr</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learning rate lr = 0.001
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-1-forward-pass-recap-from-lab-2">
+<h2>Step 1 — Forward pass (recap from Lab 2)<a class="headerlink" href="#step-1-forward-pass-recap-from-lab-2" title="Link to this heading">#</a></h2>
+<p>Same computation as Lab 2, but this time I keep every intermediate (<span class="math notranslate nohighlight">\(Z_h\)</span>, <span class="math notranslate nohighlight">\(H\)</span>, <span class="math notranslate nohighlight">\(Z_o\)</span>, <span class="math notranslate nohighlight">\(\hat{y}\)</span>) around because backprop needs them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W_h</span><span class="p">,</span> <span class="n">theta_h</span><span class="p">,</span> <span class="n">W_o</span><span class="p">,</span> <span class="n">theta_o</span><span class="p">):</span>
+    <span class="n">Z_h</span> <span class="o">=</span> <span class="n">x</span> <span class="o">@</span> <span class="n">W_h</span> <span class="o">+</span> <span class="n">theta_h</span>        <span class="c1"># (2,)</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="n">Z_h</span><span class="p">)</span>                  <span class="c1"># (2,)</span>
+    <span class="n">Z_o</span> <span class="o">=</span> <span class="n">H</span> <span class="o">@</span> <span class="n">W_o</span> <span class="o">+</span> <span class="n">theta_o</span>        <span class="c1"># scalar</span>
+    <span class="n">y_hat</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="n">Z_o</span><span class="p">)</span>              <span class="c1"># scalar</span>
+    <span class="n">cache</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"x"</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s2">"Z_h"</span><span class="p">:</span> <span class="n">Z_h</span><span class="p">,</span> <span class="s2">"H"</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="s2">"Z_o"</span><span class="p">:</span> <span class="n">Z_o</span><span class="p">,</span> <span class="s2">"y_hat"</span><span class="p">:</span> <span class="n">y_hat</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">y_hat</span><span class="p">,</span> <span class="n">cache</span>
+
+<span class="n">y_hat</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W_h</span><span class="p">,</span> <span class="n">theta_h</span><span class="p">,</span> <span class="n">W_o</span><span class="p">,</span> <span class="n">theta_o</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Z_h   ="</span><span class="p">,</span> <span class="n">cache</span><span class="p">[</span><span class="s2">"Z_h"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"H     ="</span><span class="p">,</span> <span class="n">cache</span><span class="p">[</span><span class="s2">"H"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Z_o   ="</span><span class="p">,</span> <span class="n">cache</span><span class="p">[</span><span class="s2">"Z_o"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"y_hat ="</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">)</span>
+
+<span class="n">loss</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_hat</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Loss E = 1/2 (y - y_hat)^2 ="</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Z_h   = [-0.7  0.1]
+H     = [0.  0.1]
+Z_o   = 0.08
+y_hat = 0.08
+Loss E = 1/2 (y - y_hat)^2 = 0.4232
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-2-backward-pass">
+<h2>Step 2 — Backward pass<a class="headerlink" href="#step-2-backward-pass" title="Link to this heading">#</a></h2>
+<p>I implement this in the same two stages as the derivation above: output-layer error signal first, then propagate it back to the hidden layer.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">W_o</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
+    <span class="n">Z_h</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">Z_o</span><span class="p">,</span> <span class="n">y_hat</span> <span class="o">=</span> <span class="n">cache</span><span class="p">[</span><span class="s2">"Z_h"</span><span class="p">],</span> <span class="n">cache</span><span class="p">[</span><span class="s2">"H"</span><span class="p">],</span> <span class="n">cache</span><span class="p">[</span><span class="s2">"Z_o"</span><span class="p">],</span> <span class="n">cache</span><span class="p">[</span><span class="s2">"y_hat"</span><span class="p">]</span>
+    <span class="n">x_in</span> <span class="o">=</span> <span class="n">cache</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span>
+
+    <span class="c1"># ---- output layer ----</span>
+    <span class="c1"># dE/dy_hat = (y_hat - y); dy_hat/dZ_o = relu_grad(Z_o)</span>
+    <span class="n">delta_o</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_hat</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">relu_grad</span><span class="p">(</span><span class="n">Z_o</span><span class="p">)</span>          <span class="c1"># scalar</span>
+
+    <span class="n">dW_o</span> <span class="o">=</span> <span class="n">H</span> <span class="o">*</span> <span class="n">delta_o</span>                                  <span class="c1"># dE/dW_o = H^T . delta_o -&gt; shape (2,)</span>
+    <span class="n">dtheta_o</span> <span class="o">=</span> <span class="n">delta_o</span>                                  <span class="c1"># dE/dtheta_o = delta_o</span>
+
+    <span class="c1"># ---- hidden layer ----</span>
+    <span class="c1"># error flows backward through W_o, then gets gated by relu_grad(Z_h)</span>
+    <span class="n">delta_h</span> <span class="o">=</span> <span class="p">(</span><span class="n">delta_o</span> <span class="o">*</span> <span class="n">W_o</span><span class="p">)</span> <span class="o">*</span> <span class="n">relu_grad</span><span class="p">(</span><span class="n">Z_h</span><span class="p">)</span>          <span class="c1"># shape (2,)</span>
+
+    <span class="n">dW_h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">x_in</span><span class="p">,</span> <span class="n">delta_h</span><span class="p">)</span>                      <span class="c1"># dE/dW_h = x^T . delta_h -&gt; shape (3,2)</span>
+    <span class="n">dtheta_h</span> <span class="o">=</span> <span class="n">delta_h</span>                                  <span class="c1"># dE/dtheta_h = delta_h</span>
+
+    <span class="n">grads</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"delta_o"</span><span class="p">:</span> <span class="n">delta_o</span><span class="p">,</span> <span class="s2">"dW_o"</span><span class="p">:</span> <span class="n">dW_o</span><span class="p">,</span> <span class="s2">"dtheta_o"</span><span class="p">:</span> <span class="n">dtheta_o</span><span class="p">,</span>
+        <span class="s2">"delta_h"</span><span class="p">:</span> <span class="n">delta_h</span><span class="p">,</span> <span class="s2">"dW_h"</span><span class="p">:</span> <span class="n">dW_h</span><span class="p">,</span> <span class="s2">"dtheta_h"</span><span class="p">:</span> <span class="n">dtheta_h</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">grads</span>
+
+<span class="n">grads</span> <span class="o">=</span> <span class="n">backward</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">W_o</span><span class="p">,</span> <span class="n">cache</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Output error signal  delta_o        ="</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"delta_o"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Grad w.r.t. W_o      dE/dW_o        ="</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dW_o"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Grad w.r.t. theta_o  dE/dtheta_o    ="</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_o"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Hidden error signal  delta_h        ="</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"delta_h"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Grad w.r.t. W_h      dE/dW_h        =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dW_h"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Grad w.r.t. theta_h  dE/dtheta_h    ="</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_h"</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output error signal  delta_o        = -0.92
+Grad w.r.t. W_o      dE/dW_o        = [-0.    -0.092]
+Grad w.r.t. theta_o  dE/dtheta_o    = -0.92
+
+Hidden error signal  delta_h        = [0.    0.184]
+Grad w.r.t. W_h      dE/dW_h        =
+ [[0.    0.184]
+ [0.    0.   ]
+ [0.    0.184]]
+Grad w.r.t. theta_h  dE/dtheta_h    = [0.    0.184]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that <code class="docutils literal notranslate"><span class="pre">delta_h[0]</span></code> is <strong>0</strong>. This happens because <span class="math notranslate nohighlight">\(Z_1 &lt; 0\)</span> in the forward pass (see Lab 2), so <code class="docutils literal notranslate"><span class="pre">relu_grad(Z_1)</span> <span class="pre">=</span> <span class="pre">0</span></code> — ReLU’s derivative is exactly zero on the negative side. As a direct consequence, every gradient that depends on <span class="math notranslate nohighlight">\(\delta_{h,1}\)</span> (namely <span class="math notranslate nohighlight">\(w_{11}, w_{13}, w_{15}, \theta_1\)</span> — the whole first column of <span class="math notranslate nohighlight">\(W_h\)</span>) is also exactly zero this step. Those weights simply will not move on this update, no matter how large the output error is. This is the “dying ReLU” phenomenon showing up concretely in the gradients, exactly as anticipated in Lab 2’s summary.</p>
+</section>
+<section id="step-3-update-the-parameters-gradient-descent-step">
+<h2>Step 3 — Update the parameters (gradient descent step)<a class="headerlink" href="#step-3-update-the-parameters-gradient-descent-step" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[W \leftarrow W - \alpha \frac{\partial E}{\partial W}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sgd_update</span><span class="p">(</span><span class="n">W_h</span><span class="p">,</span> <span class="n">theta_h</span><span class="p">,</span> <span class="n">W_o</span><span class="p">,</span> <span class="n">theta_o</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">lr</span><span class="p">):</span>
+    <span class="n">W_h_new</span> <span class="o">=</span> <span class="n">W_h</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dW_h"</span><span class="p">]</span>
+    <span class="n">theta_h_new</span> <span class="o">=</span> <span class="n">theta_h</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_h"</span><span class="p">]</span>
+    <span class="n">W_o_new</span> <span class="o">=</span> <span class="n">W_o</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dW_o"</span><span class="p">]</span>
+    <span class="n">theta_o_new</span> <span class="o">=</span> <span class="n">theta_o</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_o"</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">W_h_new</span><span class="p">,</span> <span class="n">theta_h_new</span><span class="p">,</span> <span class="n">W_o_new</span><span class="p">,</span> <span class="n">theta_o_new</span>
+
+<span class="n">W_h_new</span><span class="p">,</span> <span class="n">theta_h_new</span><span class="p">,</span> <span class="n">W_o_new</span><span class="p">,</span> <span class="n">theta_o_new</span> <span class="o">=</span> <span class="n">sgd_update</span><span class="p">(</span><span class="n">W_h</span><span class="p">,</span> <span class="n">theta_h</span><span class="p">,</span> <span class="n">W_o</span><span class="p">,</span> <span class="n">theta_o</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">lr</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"W_h (before) =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">W_h</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"W_h (after)  =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">W_h_new</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"theta_h (before) ="</span><span class="p">,</span> <span class="n">theta_h</span><span class="p">,</span> <span class="s2">" -&gt; (after) ="</span><span class="p">,</span> <span class="n">theta_h_new</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"W_o (before) ="</span><span class="p">,</span> <span class="n">W_o</span><span class="p">,</span> <span class="s2">" -&gt; (after) ="</span><span class="p">,</span> <span class="n">W_o_new</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"theta_o (before) ="</span><span class="p">,</span> <span class="n">theta_o</span><span class="p">,</span> <span class="s2">" -&gt; (after) ="</span><span class="p">,</span> <span class="n">theta_o_new</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>W_h (before) =
+ [[ 0.2 -0.3]
+ [ 0.4  0.1]
+ [-0.5  0.2]]
+W_h (after)  =
+ [[ 0.2      -0.300184]
+ [ 0.4       0.1     ]
+ [-0.5       0.199816]]
+
+theta_h (before) = [-0.4  0.2]  -&gt; (after) = [-0.4       0.199816]
+
+W_o (before) = [-0.3 -0.2]  -&gt; (after) = [-0.3      -0.199908]
+theta_o (before) = 0.1  -&gt; (after) = 0.10092000000000001
+</pre></div>
+</div>
+</div>
+</div>
+<p>As expected, <code class="docutils literal notranslate"><span class="pre">W_h_new[:,</span> <span class="pre">0]</span></code> (the weights feeding <span class="math notranslate nohighlight">\(H_1\)</span>: <span class="math notranslate nohighlight">\(w_{11}, w_{13}, w_{15}\)</span>) and <code class="docutils literal notranslate"><span class="pre">theta_h_new[0]</span></code> (<span class="math notranslate nohighlight">\(\theta_1\)</span>) are <strong>unchanged</strong>, because their gradients were zero. Only the second column (<span class="math notranslate nohighlight">\(w_{12}, w_{14}, w_{16}\)</span>, <span class="math notranslate nohighlight">\(\theta_2\)</span>) and the output-layer parameters moved — and they moved by a <em>tiny</em> amount, since <code class="docutils literal notranslate"><span class="pre">lr</span> <span class="pre">=</span> <span class="pre">0.001</span></code> is a very small learning rate.</p>
+</section>
+<section id="step-4-verify-the-gradients-numerically-gradient-checking">
+<h2>Step 4 — Verify the gradients numerically (gradient checking)<a class="headerlink" href="#step-4-verify-the-gradients-numerically-gradient-checking" title="Link to this heading">#</a></h2>
+<p>Hand-deriving gradients is error-prone, so a standard sanity check is <strong>numerical (finite-difference) gradient checking</strong>: nudge one parameter by a tiny amount <span class="math notranslate nohighlight">\(\epsilon\)</span>, see how much the loss changes, and compare that empirical slope to the analytic gradient computed by backprop. If they match closely, the backward pass is almost certainly implemented correctly.</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial E}{\partial \theta} \approx \frac{E(\theta+\epsilon) - E(\theta-\epsilon)}{2\epsilon}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">loss_fn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">W_h</span><span class="p">,</span> <span class="n">theta_h</span><span class="p">,</span> <span class="n">W_o</span><span class="p">,</span> <span class="n">theta_o</span><span class="p">):</span>
+    <span class="n">y_hat</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W_h</span><span class="p">,</span> <span class="n">theta_h</span><span class="p">,</span> <span class="n">W_o</span><span class="p">,</span> <span class="n">theta_o</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_hat</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+
+<span class="c1"># Generic central-difference numerical gradient for an array-shaped parameter.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">numerical_gradient</span><span class="p">(</span><span class="n">param_getter</span><span class="p">,</span> <span class="n">param_setter</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+    <span class="n">original</span> <span class="o">=</span> <span class="n">param_getter</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">grad_num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nditer</span><span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="p">[</span><span class="s2">"multi_index"</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">multi_index</span>
+        <span class="n">plus</span> <span class="o">=</span> <span class="n">original</span><span class="o">.</span><span class="n">copy</span><span class="p">();</span> <span class="n">plus</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">eps</span>
+        <span class="n">minus</span> <span class="o">=</span> <span class="n">original</span><span class="o">.</span><span class="n">copy</span><span class="p">();</span> <span class="n">minus</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-=</span> <span class="n">eps</span>
+
+        <span class="n">param_setter</span><span class="p">(</span><span class="n">plus</span><span class="p">)</span>
+        <span class="n">loss_plus</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">W_h</span><span class="p">,</span> <span class="n">theta_h</span><span class="p">,</span> <span class="n">W_o</span><span class="p">,</span> <span class="n">theta_o</span><span class="p">)</span>
+
+        <span class="n">param_setter</span><span class="p">(</span><span class="n">minus</span><span class="p">)</span>
+        <span class="n">loss_minus</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">W_h</span><span class="p">,</span> <span class="n">theta_h</span><span class="p">,</span> <span class="n">W_o</span><span class="p">,</span> <span class="n">theta_o</span><span class="p">)</span>
+
+        <span class="n">grad_num</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">loss_plus</span> <span class="o">-</span> <span class="n">loss_minus</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">eps</span><span class="p">)</span>
+
+    <span class="n">param_setter</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>  <span class="c1"># restore</span>
+    <span class="k">return</span> <span class="n">grad_num</span>
+
+
+<span class="c1"># --- check dE/dW_h ---</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_Wh</span><span class="p">():</span> <span class="k">return</span> <span class="n">W_h</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_Wh</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">W_h</span>
+    <span class="n">W_h</span> <span class="o">=</span> <span class="n">v</span>
+<span class="n">dWh_num</span> <span class="o">=</span> <span class="n">numerical_gradient</span><span class="p">(</span><span class="n">get_Wh</span><span class="p">,</span> <span class="n">set_Wh</span><span class="p">)</span>
+
+<span class="c1"># --- check dE/dtheta_h ---</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_th</span><span class="p">():</span> <span class="k">return</span> <span class="n">theta_h</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_th</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">theta_h</span>
+    <span class="n">theta_h</span> <span class="o">=</span> <span class="n">v</span>
+<span class="n">dth_num</span> <span class="o">=</span> <span class="n">numerical_gradient</span><span class="p">(</span><span class="n">get_th</span><span class="p">,</span> <span class="n">set_th</span><span class="p">)</span>
+
+<span class="c1"># --- check dE/dW_o ---</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_Wo</span><span class="p">():</span> <span class="k">return</span> <span class="n">W_o</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_Wo</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">W_o</span>
+    <span class="n">W_o</span> <span class="o">=</span> <span class="n">v</span>
+<span class="n">dWo_num</span> <span class="o">=</span> <span class="n">numerical_gradient</span><span class="p">(</span><span class="n">get_Wo</span><span class="p">,</span> <span class="n">set_Wo</span><span class="p">)</span>
+
+<span class="c1"># --- check dE/dtheta_o ---</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_to</span><span class="p">():</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">theta_o</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_to</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">theta_o</span>
+    <span class="n">theta_o</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">dto_num</span> <span class="o">=</span> <span class="n">numerical_gradient</span><span class="p">(</span><span class="n">get_to</span><span class="p">,</span> <span class="n">set_to</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dW_h analytic  =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dW_h"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dW_h numeric   =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">dWh_num</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"max abs diff   ="</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">grads</span><span class="p">[</span><span class="s2">"dW_h"</span><span class="p">]</span> <span class="o">-</span> <span class="n">dWh_num</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dtheta_h analytic ="</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_h"</span><span class="p">],</span> <span class="s2">" numeric ="</span><span class="p">,</span> <span class="n">dth_num</span><span class="p">,</span>
+      <span class="s2">" max abs diff ="</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_h"</span><span class="p">]</span> <span class="o">-</span> <span class="n">dth_num</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dW_o analytic  ="</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dW_o"</span><span class="p">],</span> <span class="s2">" numeric ="</span><span class="p">,</span> <span class="n">dWo_num</span><span class="p">,</span>
+      <span class="s2">" max abs diff ="</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">grads</span><span class="p">[</span><span class="s2">"dW_o"</span><span class="p">]</span> <span class="o">-</span> <span class="n">dWo_num</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dtheta_o analytic ="</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_o"</span><span class="p">],</span> <span class="s2">" numeric ="</span><span class="p">,</span> <span class="n">dto_num</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+      <span class="s2">" abs diff ="</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_o"</span><span class="p">]</span> <span class="o">-</span> <span class="n">dto_num</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+<span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-4</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">grads</span><span class="p">[</span><span class="s2">"dW_h"</span><span class="p">]</span> <span class="o">-</span> <span class="n">dWh_num</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">tol</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_h"</span><span class="p">]</span> <span class="o">-</span> <span class="n">dth_num</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">tol</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">grads</span><span class="p">[</span><span class="s2">"dW_o"</span><span class="p">]</span> <span class="o">-</span> <span class="n">dWo_num</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">tol</span>
+<span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_o"</span><span class="p">]</span> <span class="o">-</span> <span class="n">dto_num</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">tol</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">All analytic gradients match the numerical estimates within tolerance."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dW_h analytic  =
+ [[0.    0.184]
+ [0.    0.   ]
+ [0.    0.184]]
+dW_h numeric   =
+ [[0.    0.184]
+ [0.    0.   ]
+ [0.    0.184]]
+max abs diff   = 1.3582773794595937e-11
+
+dtheta_h analytic = [0.    0.184]  numeric = [0.    0.184]  max abs diff = 1.3582773794595937e-11
+
+dW_o analytic  = [-0.    -0.092]  numeric = [ 0.    -0.092]  max abs diff = 2.066920246068804e-11
+
+dtheta_o analytic = -0.92  numeric = -0.9199999999875974  abs diff = 1.2402634474995011e-11
+
+All analytic gradients match the numerical estimates within tolerance.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-5-cross-check-with-pytorch-autograd">
+<h2>Step 5 — Cross-check with PyTorch autograd<a class="headerlink" href="#step-5-cross-check-with-pytorch-autograd" title="Link to this heading">#</a></h2>
+<p>As a second, independent check, I let PyTorch compute the gradients automatically via <code class="docutils literal notranslate"><span class="pre">autograd</span></code> (which has no knowledge of my hand-derived formulas) and confirm it agrees with both the analytic and numerical gradients above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">x_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">y_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+<span class="n">W_h_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">W_h</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">theta_h_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">theta_h</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">W_o_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">W_o</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">theta_o_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">theta_o</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># forward pass using autograd-tracked tensors</span>
+<span class="n">Z_h_t</span> <span class="o">=</span> <span class="n">x_t</span> <span class="o">@</span> <span class="n">W_h_t</span> <span class="o">+</span> <span class="n">theta_h_t</span>
+<span class="n">H_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">Z_h_t</span><span class="p">)</span>
+<span class="n">Z_o_t</span> <span class="o">=</span> <span class="n">H_t</span> <span class="o">@</span> <span class="n">W_o_t</span> <span class="o">+</span> <span class="n">theta_o_t</span>
+<span class="n">y_hat_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">Z_o_t</span><span class="p">)</span>
+
+<span class="n">loss_t</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">y_t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_hat_t</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">loss_t</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"PyTorch y_hat ="</span><span class="p">,</span> <span class="n">y_hat_t</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="s2">" (NumPy y_hat ="</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">,</span> <span class="s2">")"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"PyTorch loss  ="</span><span class="p">,</span> <span class="n">loss_t</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="s2">" (NumPy loss ="</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="s2">")"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"PyTorch dW_h  =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">W_h_t</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"NumPy   dW_h  =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dW_h"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"PyTorch dtheta_h ="</span><span class="p">,</span> <span class="n">theta_h_t</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="s2">" NumPy dtheta_h ="</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_h"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"PyTorch dW_o     ="</span><span class="p">,</span> <span class="n">W_o_t</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="s2">" NumPy dW_o ="</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dW_o"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"PyTorch dtheta_o ="</span><span class="p">,</span> <span class="n">theta_o_t</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="s2">" NumPy dtheta_o ="</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_o"</span><span class="p">])</span>
+
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">W_h_t</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dW_h"</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">theta_h_t</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_h"</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">W_o_t</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dW_o"</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">theta_o_t</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">grads</span><span class="p">[</span><span class="s2">"dtheta_o"</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">PyTorch autograd confirms the manually-derived backpropagation gradients."</span><span class="p">)</span>
+
+<span class="c1"># Also confirm one optimizer step matches our manual SGD update</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">([</span><span class="n">W_h_t</span><span class="p">,</span> <span class="n">theta_h_t</span><span class="p">,</span> <span class="n">W_o_t</span><span class="p">,</span> <span class="n">theta_o_t</span><span class="p">],</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">)</span>
+<span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">PyTorch W_h after one SGD step  =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">W_h_t</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"NumPy   W_h after one SGD step  =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">W_h_new</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">W_h_t</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">W_h_new</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Parameter update after one optimizer step also matches."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PyTorch y_hat = 0.08  (NumPy y_hat = 0.08 )
+PyTorch loss  = 0.4232  (NumPy loss = 0.4232 )
+
+PyTorch dW_h  =
+ [[0.    0.184]
+ [0.    0.   ]
+ [0.    0.184]]
+NumPy   dW_h  =
+ [[0.    0.184]
+ [0.    0.   ]
+ [0.    0.184]]
+
+PyTorch dtheta_h = [0.    0.184]  NumPy dtheta_h = [0.    0.184]
+PyTorch dW_o     = [-0.    -0.092]  NumPy dW_o = [-0.    -0.092]
+PyTorch dtheta_o = -0.92  NumPy dtheta_o = -0.92
+
+PyTorch autograd confirms the manually-derived backpropagation gradients.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PyTorch W_h after one SGD step  =
+ [[ 0.2      -0.300184]
+ [ 0.4       0.1     ]
+ [-0.5       0.199816]]
+NumPy   W_h after one SGD step  =
+ [[ 0.2      -0.300184]
+ [ 0.4       0.1     ]
+ [-0.5       0.199816]]
+Parameter update after one optimizer step also matches.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-6-training-loop-repeat-forward-backward-update">
+<h2>Step 6 — Training loop: repeat forward + backward + update<a class="headerlink" href="#step-6-training-loop-repeat-forward-backward-update" title="Link to this heading">#</a></h2>
+<p>A single update barely changes anything because <code class="docutils literal notranslate"><span class="pre">lr</span> <span class="pre">=</span> <span class="pre">0.001</span></code> is tiny. To actually see learning happen, I repeat the forward → backward → update cycle for many iterations on this one example and track how the loss evolves.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># reset parameters to the original Lab 2 values</span>
+<span class="n">W_h_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]])</span>
+<span class="n">theta_h_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+<span class="n">W_o_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">])</span>
+<span class="n">theta_o_train</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="n">n_epochs</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">loss_history</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">):</span>
+    <span class="n">y_hat_e</span><span class="p">,</span> <span class="n">cache_e</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W_h_train</span><span class="p">,</span> <span class="n">theta_h_train</span><span class="p">,</span> <span class="n">W_o_train</span><span class="p">,</span> <span class="n">theta_o_train</span><span class="p">)</span>
+    <span class="n">loss_e</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_hat_e</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">loss_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_e</span><span class="p">)</span>
+
+    <span class="n">grads_e</span> <span class="o">=</span> <span class="n">backward</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">W_o_train</span><span class="p">,</span> <span class="n">cache_e</span><span class="p">)</span>
+    <span class="n">W_h_train</span><span class="p">,</span> <span class="n">theta_h_train</span><span class="p">,</span> <span class="n">W_o_train</span><span class="p">,</span> <span class="n">theta_o_train</span> <span class="o">=</span> <span class="n">sgd_update</span><span class="p">(</span>
+        <span class="n">W_h_train</span><span class="p">,</span> <span class="n">theta_h_train</span><span class="p">,</span> <span class="n">W_o_train</span><span class="p">,</span> <span class="n">theta_o_train</span><span class="p">,</span> <span class="n">grads_e</span><span class="p">,</span> <span class="n">lr</span>
+    <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loss at epoch 1     : </span><span class="si">{</span><span class="n">loss_history</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loss at epoch </span><span class="si">{</span><span class="n">n_epochs</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">loss_history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loss_history</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Epoch"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Loss  E = 1/2 (y - y_hat)^2"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Training loss over </span><span class="si">{</span><span class="n">n_epochs</span><span class="si">}</span><span class="s2"> epochs (lr = </span><span class="si">{</span><span class="n">lr</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss at epoch 1     : 0.423200
+Loss at epoch 5000: 0.000018
+</pre></div>
+</div>
+<img alt="_images/e94622c6f517618d62696dda271857a586babfca659274b00ee37ed69da7980d.png" src="_images/e94622c6f517618d62696dda271857a586babfca659274b00ee37ed69da7980d.png" />
+</div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Backpropagation for this tiny network boiled down to two chain-rule applications: an <strong>output-layer error signal</strong> <span class="math notranslate nohighlight">\(\delta_o = (\hat{y}-y)f'(Z_o)\)</span>, and a <strong>hidden-layer error signal</strong> <span class="math notranslate nohighlight">\(\delta_h = (\delta_o W_o^T) \odot f'(Z_h)\)</span> obtained by pushing <span class="math notranslate nohighlight">\(\delta_o\)</span> back through <span class="math notranslate nohighlight">\(W_o\)</span> and gating it with the local ReLU derivative.</p></li>
+<li><p>Because <span class="math notranslate nohighlight">\(Z_1 &lt; 0\)</span> in the forward pass, ReLU’s derivative there is exactly 0, so the whole first hidden unit’s incoming weights (<span class="math notranslate nohighlight">\(w_{11}, w_{13}, w_{15}, \theta_1\)</span>) received <strong>zero gradient</strong> and did not update — a direct, concrete illustration of the “dying ReLU” problem.</p></li>
+<li><p>The analytic gradients were confirmed two independent ways: <strong>numerical (finite-difference) gradient checking</strong> and <strong>PyTorch autograd</strong>, both of which matched the hand-derived formulas to numerical precision — giving strong confidence the backward pass is implemented correctly.</p></li>
+<li><p>Because <code class="docutils literal notranslate"><span class="pre">lr</span> <span class="pre">=</span> <span class="pre">0.001</span></code> is very small, a <em>single</em> update barely moves the weights; running the forward/backward/update cycle for thousands of epochs on this one example is what actually drives the loss down, which sets up the motivation for Lab 4’s use of PyTorch’s built-in training loop machinery (<code class="docutils literal notranslate"><span class="pre">DataLoader</span></code>, <code class="docutils literal notranslate"><span class="pre">optim.SGD</span></code>, multiple epochs) to train on a real dataset instead of one example by hand.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Lab_Task_2_Forward_Pass_and_Error.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Laboratory Task 2 - Forward Pass and Error Computation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Lab_Task_4_PyTorch_Regression.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Laboratory Task 4 - PyTorch Linear Regression</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-approach">My Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-forward-pass-recap-from-lab-2">Step 1 — Forward pass (recap from Lab 2)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-backward-pass">Step 2 — Backward pass</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-update-the-parameters-gradient-descent-step">Step 3 — Update the parameters (gradient descent step)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-verify-the-gradients-numerically-gradient-checking">Step 4 — Verify the gradients numerically (gradient checking)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-cross-check-with-pytorch-autograd">Step 5 — Cross-check with PyTorch autograd</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-training-loop-repeat-forward-backward-update">Step 6 — Training loop: repeat forward + backward + update</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Clark Tagalog
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p class="footer-note">
+  Built with <a href="https://jupyterbook.org">Jupyter Book</a> ·
+  <a href="https://github.com/tagalogclark123-cmyk/ds-portfolio-tagalog">Source on GitHub</a>
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
