@@ -87,7 +87,7 @@ sphinx:
   extra_extensions:
     - sphinxext.opengraph          # rich link previews (LinkedIn, Slack, …)
   local_extensions:
-    copy_figures: _ext             # copies ./figures into the site (see _ext/copy_figures.py)
+    copy_figures: _ext             # copies notebook images into the site (see _ext/copy_figures.py)
   config:
     # Use each notebook's own metadata "title" as the page title.
     # (Your notebooks have no top-level "# Heading", so without this every page
