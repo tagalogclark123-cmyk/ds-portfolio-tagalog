@@ -36,3 +36,8 @@ parts:
     chapters:
       - file: Lab_Activity_6_CNN_Architecture
         title: "Lab 6 · CNN Architecture"
+
+  - caption: Transfer Learning & Pretrained Models
+    chapters:
+      - file: Image_Classification_Pretrained_Models
+        title: "Lab 7 · Image Classification with Pretrained Models"
