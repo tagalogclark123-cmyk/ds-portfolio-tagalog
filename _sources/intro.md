@@ -105,7 +105,7 @@ worked out step by step, then vectorised in NumPy and cross-checked in PyTorch.
 :class-card: lab-card
 
 Backpropagation by hand with the chain rule, verified with numerical gradient
-checking and PyTorch autograd, plus a look at the "dying ReLU" effect.
+checking and PyTorch autograd.
 +++
 {bdg-secondary-line}`NumPy` {bdg-secondary-line}`PyTorch` {bdg-secondary-line}`Matplotlib`
 :::
@@ -116,7 +116,7 @@ checking and PyTorch autograd, plus a look at the "dying ReLU" effect.
 :class-card: lab-card
 
 A two-layer network trained with SGD (batch size 8, 1000 epochs) on the
-scikit-learn diabetes dataset, benchmarked against plain linear regression.
+scikit-learn diabetes dataset.
 +++
 {bdg-secondary-line}`PyTorch` {bdg-secondary-line}`scikit-learn` {bdg-secondary-line}`pandas`
 :::
@@ -126,8 +126,7 @@ scikit-learn diabetes dataset, benchmarked against plain linear regression.
 :link-type: doc
 :class-card: lab-card
 
-Creating, converting, reshaping, indexing and multiplying tensors, with
-reproducible seeding across NumPy and PyTorch.
+Creating, converting, reshaping, indexing and multiplying tensors.
 +++
 {bdg-secondary-line}`PyTorch` {bdg-secondary-line}`NumPy`
 :::
@@ -137,11 +136,20 @@ reproducible seeding across NumPy and PyTorch.
 :link-type: doc
 :class-card: lab-card
 
-Turning a CNN architecture diagram into a PyTorch model: layer shapes derived
-by hand, verified with a dummy forward pass, plus a correct Softmax + NLLLoss
-training step.
+Turning a CNN architecture diagram into a PyTorch model.
 +++
 {bdg-secondary-line}`PyTorch` {bdg-secondary-line}`CNN`
+:::
+
+:::{grid-item-card} {octicon}`image;1.1em;sd-mr-1` Lab 7 · Pretrained Models
+:link: Image_Classification_Pretrained_Models
+:link-type: doc
+:class-card: lab-card
+
+Five pretrained ImageNet models (ResNet, EfficientNet, etc.) evaluated on a
+custom 5-class dataset.
++++
+{bdg-secondary-line}`PyTorch` {bdg-secondary-line}`torchvision` {bdg-secondary-line}`scikit-learn`
 :::
 
 ::::
