@@ -45,7 +45,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=30bb9775" />
   
@@ -66,7 +66,7 @@
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="_static/design-tabs.js?v=fcb327ea"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -268,6 +268,10 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Transfer Learning &amp; Pretrained Models</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="Image_Classification_Pretrained_Models.html">Lab 7 · Image Classification with Pretrained Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Blog</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Blog_Learning_Rate.html">The Learning Rate Is Not a Magic Number</a></li>
 </ul>
 
     </div>
@@ -533,12 +537,12 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Seed every random number generator used in this notebook so that every</span>
-<span class="c1"># subsequent "random" operation (NumPy or PyTorch) is reproducible.</span>
+<span class="c1"># subsequent &quot;random&quot; operation (NumPy or PyTorch) is reproducible.</span>
 <span class="c1">#</span>
 <span class="c1"># Parameters</span>
 <span class="c1"># ----------</span>
 <span class="c1"># seed : int</span>
-<span class="c1">#     The seed value to use for both NumPy's and PyTorch's RNGs.</span>
+<span class="c1">#     The seed value to use for both NumPy&#39;s and PyTorch&#39;s RNGs.</span>
 <span class="c1">#</span>
 <span class="c1"># Returns</span>
 <span class="c1"># -------</span>
@@ -550,9 +554,9 @@
     <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
 
 
-<span class="c1"># quick smoke test: calling it shouldn't raise, and shouldn't return anything</span>
+<span class="c1"># quick smoke test: calling it shouldn&#39;t raise, and shouldn&#39;t return anything</span>
 <span class="n">return_value</span> <span class="o">=</span> <span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"set_seed(42) returned:"</span><span class="p">,</span> <span class="n">return_value</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;set_seed(42) returned:&quot;</span><span class="p">,</span> <span class="n">return_value</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -572,9 +576,9 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"arr      ="</span><span class="p">,</span> <span class="n">arr</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"dtype    ="</span><span class="p">,</span> <span class="n">arr</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"shape    ="</span><span class="p">,</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;arr      =&quot;</span><span class="p">,</span> <span class="n">arr</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dtype    =&quot;</span><span class="p">,</span> <span class="n">arr</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shape    =&quot;</span><span class="p">,</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -595,8 +599,8 @@ shape    = (6,)
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"dtype:"</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"tensor type:"</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">type</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dtype:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tensor type:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">type</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -614,11 +618,11 @@ tensor type: torch.IntTensor
 <p>The lecture notebook is explicit about this: don’t write <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">torch.tensor(x,</span> <span class="pre">dtype=torch.int64)</span></code> (that raises a warning/error about improper tensor cloning). Instead, use the tensor’s own <code class="docutils literal notranslate"><span class="pre">.type()</span></code> method, which returns a new tensor with the requested dtype.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Before:"</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Before:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"After: "</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;After: &quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -645,14 +649,14 @@ tensor([3, 4, 2, 4, 4, 1])
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_view</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">x_reshape</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"x.view(3,2)    =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">x_view</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"x.reshape(3,2) =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">x_reshape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Same values?"</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">x_view</span><span class="p">,</span> <span class="n">x_reshape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x.view(3,2)    =</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">x_view</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x.reshape(3,2) =</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">x_reshape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Same values?&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">x_view</span><span class="p">,</span> <span class="n">x_reshape</span><span class="p">))</span>
 
 <span class="c1"># Commit to one going forward -- reshape() is the safer general-purpose choice</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">x is now:</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"x.shape ="</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">x is now:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x.shape =&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -683,13 +687,13 @@ x.shape = torch.Size([3, 2])
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">right_col</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Right-hand column x[:, 1] ="</span><span class="p">,</span> <span class="n">right_col</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Right-hand column x[:, 1] =&quot;</span><span class="p">,</span> <span class="n">right_col</span><span class="p">)</span>
 
 <span class="c1"># Note: slicing with 1: instead of a bare 1 keeps it as a column vector (3,1)</span>
 <span class="c1"># rather than flattening it to a 1D tensor of shape (3,) -- useful to know,</span>
-<span class="c1"># even though the task just asks for "the right-hand column" (either is valid).</span>
+<span class="c1"># even though the task just asks for &quot;the right-hand column&quot; (either is valid).</span>
 <span class="n">right_col_as_column</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">As a (3,1) column tensor:</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">right_col_as_column</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">As a (3,1) column tensor:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">right_col_as_column</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -722,19 +726,19 @@ As a (3,1) column tensor:
 <span class="n">squared_torch_square</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="n">squared_self_multiply</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"x ** 2         =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">squared_pow_operator</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"x.pow(2)       =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">squared_pow_method</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"torch.square(x)=</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">squared_torch_square</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"x * x          =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">squared_self_multiply</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x ** 2         =</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">squared_pow_operator</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x.pow(2)       =</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">squared_pow_method</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;torch.square(x)=</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">squared_torch_square</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x * x          =</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">squared_self_multiply</span><span class="p">)</span>
 
 <span class="n">all_agree</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">squared_pow_operator</span><span class="p">,</span> <span class="n">squared_pow_method</span><span class="p">)</span>
     <span class="ow">and</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">squared_pow_method</span><span class="p">,</span> <span class="n">squared_torch_square</span><span class="p">)</span>
     <span class="ow">and</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">squared_torch_square</span><span class="p">,</span> <span class="n">squared_self_multiply</span><span class="p">)</span>
 <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">All four methods agree:"</span><span class="p">,</span> <span class="n">all_agree</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">All four methods agree:&quot;</span><span class="p">,</span> <span class="n">all_agree</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">x is unchanged:</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">x is unchanged:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -776,10 +780,10 @@ x is unchanged:
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"y =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"y.shape ="</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">" (x.shape ="</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">")"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"y has the same number of elements as x:"</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">==</span> <span class="n">x</span><span class="o">.</span><span class="n">numel</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Inner dimensions match for x @ y: x.shape[1] ="</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">" y.shape[0] ="</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y =</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y.shape =&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">&quot; (x.shape =&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y has the same number of elements as x:&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">==</span> <span class="n">x</span><span class="o">.</span><span class="n">numel</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Inner dimensions match for x @ y: x.shape[1] =&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot; y.shape[0] =&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -804,12 +808,12 @@ Inner dimensions match for x @ y: x.shape[1] = 2  y.shape[0] = 2
 <span class="n">product_method</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 <span class="n">product_at</span> <span class="o">=</span> <span class="n">x</span> <span class="o">@</span> <span class="n">y</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"torch.mm(x, y) =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">product_mm</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">x.mm(y)        =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">product_method</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">x @ y          =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">product_at</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;torch.mm(x, y) =</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_mm</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">x.mm(y)        =</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_method</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">x @ y          =</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_at</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">All three agree:"</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">product_mm</span><span class="p">,</span> <span class="n">product_method</span><span class="p">)</span> <span class="ow">and</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">product_method</span><span class="p">,</span> <span class="n">product_at</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Result shape:"</span><span class="p">,</span> <span class="n">product_mm</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">" (expected (3,3) from a (3,2) x (2,3) multiplication)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">All three agree:&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">product_mm</span><span class="p">,</span> <span class="n">product_method</span><span class="p">)</span> <span class="ow">and</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">product_method</span><span class="p">,</span> <span class="n">product_at</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Result shape:&quot;</span><span class="p">,</span> <span class="n">product_mm</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">&quot; (expected (3,3) from a (3,2) x (2,3) multiplication)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -154,6 +154,25 @@ custom 5-class dataset.
 
 ::::
 
+## Blog
+
+::::{grid} 1 1 2 2
+:gutter: 3
+:class-container: lab-grid
+
+:::{grid-item-card} {octicon}`pencil;1.1em;sd-mr-1` The Learning Rate Is Not a Magic Number
+:link: Blog_Learning_Rate
+:link-type: doc
+:class-card: lab-card
+
+A controlled experiment on Fashion-MNIST: how the learning rate shapes training,
+and why the best value shifts when you change the optimizer or drop batch norm.
++++
+{bdg-secondary-line}`PyTorch Lightning` {bdg-secondary-line}`CNN` {bdg-secondary-line}`Experiment`
+:::
+
+::::
+
 ## How each lab is laid out
 
 Every report follows the same rhythm, so it is easy to skim:

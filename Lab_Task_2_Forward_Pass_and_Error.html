@@ -45,7 +45,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=30bb9775" />
   
@@ -66,7 +66,7 @@
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="_static/design-tabs.js?v=fcb327ea"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -268,6 +268,10 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Transfer Learning &amp; Pretrained Models</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="Image_Classification_Pretrained_Models.html">Lab 7 · Image Classification with Pretrained Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Blog</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Blog_Learning_Rate.html">The Learning Rate Is Not a Magic Number</a></li>
 </ul>
 
     </div>
@@ -557,12 +561,12 @@ w_{22} = -0.2
 <span class="n">W_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">])</span>              <span class="c1"># w21, w22</span>
 <span class="n">theta_o</span> <span class="o">=</span> <span class="mf">0.1</span>                             <span class="c1"># theta3 (output bias)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"x       ="</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"y       ="</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"W_h =</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">W_h</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"theta_h ="</span><span class="p">,</span> <span class="n">theta_h</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"W_o     ="</span><span class="p">,</span> <span class="n">W_o</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"theta_o ="</span><span class="p">,</span> <span class="n">theta_o</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x       =&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y       =&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;W_h =</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">W_h</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;theta_h =&quot;</span><span class="p">,</span> <span class="n">theta_h</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;W_o     =&quot;</span><span class="p">,</span> <span class="n">W_o</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;theta_o =&quot;</span><span class="p">,</span> <span class="n">theta_o</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -599,12 +603,12 @@ theta_o = 0.1
 <span class="c1"># --- vectorized dot-product form (equivalent, less error-prone) ---</span>
 <span class="n">Z_hidden</span> <span class="o">=</span> <span class="n">x</span> <span class="o">@</span> <span class="n">W_h</span> <span class="o">+</span> <span class="n">theta_h</span>   <span class="c1"># shape (2,) -&gt; [Z1, Z2]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Z1 (manual)     = </span><span class="si">{</span><span class="n">Z1_manual</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Z2 (manual)     = </span><span class="si">{</span><span class="n">Z2_manual</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[Z1, Z2] (dot)  = </span><span class="si">{</span><span class="n">Z_hidden</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Z1 (manual)     = </span><span class="si">{</span><span class="n">Z1_manual</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Z2 (manual)     = </span><span class="si">{</span><span class="n">Z2_manual</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Z1, Z2] (dot)  = </span><span class="si">{</span><span class="n">Z_hidden</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">([</span><span class="n">Z1_manual</span><span class="p">,</span> <span class="n">Z2_manual</span><span class="p">],</span> <span class="n">Z_hidden</span><span class="p">),</span> <span class="s2">"Manual and vectorized Z do not match!"</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Manual computation matches the vectorized computation. Good to proceed."</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">([</span><span class="n">Z1_manual</span><span class="p">,</span> <span class="n">Z2_manual</span><span class="p">],</span> <span class="n">Z_hidden</span><span class="p">),</span> <span class="s2">&quot;Manual and vectorized Z do not match!&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Manual computation matches the vectorized computation. Good to proceed.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -631,8 +635,8 @@ Manual computation matches the vectorized computation. Good to proceed.
 <span class="n">H</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="n">Z_hidden</span><span class="p">)</span>
 <span class="n">H1</span><span class="p">,</span> <span class="n">H2</span> <span class="o">=</span> <span class="n">H</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Z1 = </span><span class="si">{</span><span class="n">Z1_manual</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  -&gt;  H1 = relu(Z1) = </span><span class="si">{</span><span class="n">H1</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Z2 = </span><span class="si">{</span><span class="n">Z2_manual</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  -&gt;  H2 = relu(Z2) = </span><span class="si">{</span><span class="n">H2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Z1 = </span><span class="si">{</span><span class="n">Z1_manual</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  -&gt;  H1 = relu(Z1) = </span><span class="si">{</span><span class="n">H1</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Z2 = </span><span class="si">{</span><span class="n">Z2_manual</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  -&gt;  H2 = relu(Z2) = </span><span class="si">{</span><span class="n">H2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -656,8 +660,8 @@ Z2 = 0.1000  -&gt;  H2 = relu(Z2) = 0.1000
 <span class="n">Z3_manual</span> <span class="o">=</span> <span class="p">(</span><span class="n">w21</span> <span class="o">*</span> <span class="n">H1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">w22</span> <span class="o">*</span> <span class="n">H2</span><span class="p">)</span> <span class="o">+</span> <span class="n">theta_o</span>
 <span class="n">Z3_vectorized</span> <span class="o">=</span> <span class="n">H</span> <span class="o">@</span> <span class="n">W_o</span> <span class="o">+</span> <span class="n">theta_o</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Z3 (manual)     = </span><span class="si">{</span><span class="n">Z3_manual</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Z3 (vectorized) = </span><span class="si">{</span><span class="n">Z3_vectorized</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Z3 (manual)     = </span><span class="si">{</span><span class="n">Z3_manual</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Z3 (vectorized) = </span><span class="si">{</span><span class="n">Z3_vectorized</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">Z3_manual</span><span class="p">,</span> <span class="n">Z3_vectorized</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -676,8 +680,8 @@ Z3 (vectorized) = 0.08
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_hat</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="n">Z3_vectorized</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Z3    = </span><span class="si">{</span><span class="n">Z3_vectorized</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"y_hat = relu(Z3) = </span><span class="si">{</span><span class="n">y_hat</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Z3    = </span><span class="si">{</span><span class="n">Z3_vectorized</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;y_hat = relu(Z3) = </span><span class="si">{</span><span class="n">y_hat</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -730,16 +734,16 @@ y_hat = relu(Z3) = 0.0800
 <span class="n">delta</span> <span class="o">=</span> <span class="n">y_hat</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                <span class="c1"># error signal convention used for backprop</span>
 <span class="n">abs_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">raw_error</span><span class="p">)</span>
 <span class="n">squared_error</span> <span class="o">=</span> <span class="n">raw_error</span> <span class="o">**</span> <span class="mi">2</span>
-<span class="n">half_squared_error</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">squared_error</span>   <span class="c1"># this is the "loss" E we will reuse in Lab 3</span>
+<span class="n">half_squared_error</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">squared_error</span>   <span class="c1"># this is the &quot;loss&quot; E we will reuse in Lab 3</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Predicted output y_hat        = </span><span class="si">{</span><span class="n">y_hat</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Actual target y                = </span><span class="si">{</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Raw error        (y - y_hat)   = </span><span class="si">{</span><span class="n">raw_error</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error signal      (y_hat - y)  = </span><span class="si">{</span><span class="n">delta</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Absolute error   |y - y_hat|   = </span><span class="si">{</span><span class="n">abs_error</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Squared error    (y - y_hat)^2 = </span><span class="si">{</span><span class="n">squared_error</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loss E = 1/2 (y - y_hat)^2     = </span><span class="si">{</span><span class="n">half_squared_error</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Predicted output y_hat        = </span><span class="si">{</span><span class="n">y_hat</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Actual target y                = </span><span class="si">{</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Raw error        (y - y_hat)   = </span><span class="si">{</span><span class="n">raw_error</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error signal      (y_hat - y)  = </span><span class="si">{</span><span class="n">delta</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Absolute error   |y - y_hat|   = </span><span class="si">{</span><span class="n">abs_error</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Squared error    (y - y_hat)^2 = </span><span class="si">{</span><span class="n">squared_error</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loss E = 1/2 (y - y_hat)^2     = </span><span class="si">{</span><span class="n">half_squared_error</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -772,15 +776,15 @@ Loss E = 1/2 (y - y_hat)^2     = 0.4232
     <span class="n">H</span> <span class="o">=</span> <span class="n">activation</span><span class="p">(</span><span class="n">Z_h</span><span class="p">)</span>
     <span class="n">Z_o</span> <span class="o">=</span> <span class="n">H</span> <span class="o">@</span> <span class="n">W_o</span> <span class="o">+</span> <span class="n">theta_o</span>
     <span class="n">y_hat</span> <span class="o">=</span> <span class="n">activation</span><span class="p">(</span><span class="n">Z_o</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">"Z_h"</span><span class="p">:</span> <span class="n">Z_h</span><span class="p">,</span> <span class="s2">"H"</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="s2">"Z_o"</span><span class="p">:</span> <span class="n">Z_o</span><span class="p">,</span> <span class="s2">"y_hat"</span><span class="p">:</span> <span class="n">y_hat</span><span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;Z_h&quot;</span><span class="p">:</span> <span class="n">Z_h</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="s2">&quot;Z_o&quot;</span><span class="p">:</span> <span class="n">Z_o</span><span class="p">,</span> <span class="s2">&quot;y_hat&quot;</span><span class="p">:</span> <span class="n">y_hat</span><span class="p">}</span>
 
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">forward_pass</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W_h</span><span class="p">,</span> <span class="n">theta_h</span><span class="p">,</span> <span class="n">W_o</span><span class="p">,</span> <span class="n">theta_o</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">6s</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">6s</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">"y_hat"</span><span class="p">],</span> <span class="n">y_hat</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Function output matches the manual, step-by-step result."</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;y_hat&quot;</span><span class="p">],</span> <span class="n">y_hat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Function output matches the manual, step-by-step result.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -831,16 +835,16 @@ Function output matches the manual, step-by-step result.
 <span class="n">mse_t</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">y_hat_t</span><span class="p">,</span> <span class="n">y_t</span><span class="p">)</span>
 <span class="n">half_se_t</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">y_hat_t</span> <span class="o">-</span> <span class="n">y_t</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"PyTorch Z_hidden :"</span><span class="p">,</span> <span class="n">Z_h_t</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"PyTorch H        :"</span><span class="p">,</span> <span class="n">H_t</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"PyTorch Z_output :"</span><span class="p">,</span> <span class="n">Z_o_t</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"PyTorch y_hat    :"</span><span class="p">,</span> <span class="n">y_hat_t</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"PyTorch MSELoss  :"</span><span class="p">,</span> <span class="n">mse_t</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"PyTorch 1/2 SE   :"</span><span class="p">,</span> <span class="n">half_se_t</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PyTorch Z_hidden :&quot;</span><span class="p">,</span> <span class="n">Z_h_t</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PyTorch H        :&quot;</span><span class="p">,</span> <span class="n">H_t</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PyTorch Z_output :&quot;</span><span class="p">,</span> <span class="n">Z_o_t</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PyTorch y_hat    :&quot;</span><span class="p">,</span> <span class="n">y_hat_t</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PyTorch MSELoss  :&quot;</span><span class="p">,</span> <span class="n">mse_t</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PyTorch 1/2 SE   :&quot;</span><span class="p">,</span> <span class="n">half_se_t</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
 
 <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">y_hat_t</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">y_hat</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
 <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">half_se_t</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">half_squared_error</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">PyTorch forward pass matches the NumPy implementation."</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">PyTorch forward pass matches the NumPy implementation.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

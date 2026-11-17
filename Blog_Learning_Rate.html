@@ -1,0 +1,882 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="The Learning Rate Is Not a Magic Number" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/Blog_Learning_Rate.html" />
+<meta property="og:site_name" content="Data Science Portfolio" />
+<meta property="og:image" content="https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/_static/social-card.png" />
+<meta property="og:image:alt" content="Data Science Portfolio — lab reports on neural networks and PyTorch" />
+<meta name="description" content="Lab reports on neural networks and deep learning with PyTorch: forward and backward propagation, regression and tensor fundamentals." />
+<meta property="og:description" content="Lab reports on neural networks and deep learning with PyTorch: forward and backward propagation, regression and tensor fundamentals." />
+<meta name="twitter:card" content="summary_large_image" />
+
+    <title>The Learning Rate Is Not a Magic Number &#8212; Data Science Portfolio</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=6a604523" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=30bb9775" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="_static/design-tabs.js?v=fcb327ea"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Blog_Learning_Rate';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="canonical" href="https://tagalogclark123-cmyk.github.io/ds-portfolio-tagalog/Blog_Learning_Rate.html" />
+    <link rel="icon" href="_static/favicon.png"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Laboratory Task: Image Classification Using Pre-trained Models" href="Image_Classification_Pretrained_Models.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.svg" class="logo__image only-light" alt=""/>
+    <img src="_static/logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Data Science Portfolio</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/tagalogclark123-cmyk" title="GitHub profile" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub profile</span></a>
+        </li>
+</ul></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Hello, World.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Neural Network Foundations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_2_Forward_Pass_and_Error.html">Lab 2 · Forward Pass &amp; Error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_3_Forward_and_Backward_Propagation.html">Lab 3 · Forward &amp; Backward Propagation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning with PyTorch</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_4_PyTorch_Regression.html">Lab 4 · PyTorch Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lab_Task_5_PyTorch_Tensor_Fundamentals.html">Lab 5 · Tensor Fundamentals</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Convolutional Neural Networks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Lab_Activity_6_CNN_Architecture.html">Lab 6 · CNN Architecture</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Transfer Learning &amp; Pretrained Models</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Image_Classification_Pretrained_Models.html">Lab 7 · Image Classification with Pretrained Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deep Learning Blog</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">The Learning Rate Is Not a Magic Number</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/tagalogclark123-cmyk/ds-portfolio-tagalog" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Blog_Learning_Rate.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>The Learning Rate Is Not a Magic Number</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> On this page </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-the-learning-rate-actually-does">What the learning rate actually does</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-i-set-it-up">How I set it up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-happened">What happened</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#with-adam-the-sweet-spot-is-1e-3">With Adam, the sweet spot is <code class="docutils literal notranslate"><span class="pre">1e-3</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#swap-in-sgd-and-the-sweet-spot-jumps">Swap in SGD and the sweet spot jumps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#turn-off-batch-norm-and-the-whole-thing-gets-jumpy">Turn off batch norm and the whole thing gets jumpy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#so-what-do-i-make-of-all-this">So what do I make of all this</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-i-am-taking-away">What I am taking away</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-this-came-from">Where this came from</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-learning-rate-is-not-a-magic-number">
+<h1>The Learning Rate Is Not a Magic Number<a class="headerlink" href="#the-learning-rate-is-not-a-magic-number" title="Link to this heading">#</a></h1>
+<p>Of all the settings you can change on a neural network, the learning rate is the
+one I end up caring about most. Set it too low and the model barely moves. Set it
+too high and it kind of loses its mind. I knew that much in theory. What I did
+not really get, until I ran the experiment myself, is that the “right” value
+keeps moving around on you.</p>
+<p>So that is the question I wanted to answer for myself:</p>
+<blockquote>
+<div><p>Is there one best learning rate for a small CNN on Fashion-MNIST? Or does the
+best value change the moment I swap the optimiser or touch the architecture?</p>
+</div></blockquote>
+<p>The short version is that I never found one magic number. The best learning rate
+turned out to depend less on the problem and more on the rest of my setup. Below
+is how I got there.</p>
+<div class="tip admonition">
+<p class="admonition-title">If you remember one thing</p>
+<p>The learning rate (people write it as <span class="math notranslate nohighlight">\(\eta\)</span>, said “eta”) is just the size of
+the step your model takes downhill on each update. In code it is the <code class="docutils literal notranslate"><span class="pre">lr</span></code> you
+hand to <code class="docutils literal notranslate"><span class="pre">torch.optim.Adam</span></code> or <code class="docutils literal notranslate"><span class="pre">torch.optim.SGD</span></code>. That is genuinely all it is.</p>
+</div>
+<section id="what-the-learning-rate-actually-does">
+<h2>What the learning rate actually does<a class="headerlink" href="#what-the-learning-rate-actually-does" title="Link to this heading">#</a></h2>
+<p>Quick refresher first, because this is so much easier to picture than to state.</p>
+<p>Training a network means shrinking a <strong>loss</strong>, which is one number that says how
+wrong the model currently is. The way we shrink it is <strong>gradient descent</strong>: at
+every step, nudge each weight <span class="math notranslate nohighlight">\(\theta\)</span> a little in the direction that lowers the
+loss fastest. That direction is the negative gradient, and the learning rate
+decides how big the nudge is.</p>
+<div class="math notranslate nohighlight">
+\[\theta \leftarrow \theta - \eta \,\nabla_\theta \mathcal{L}(\theta)\]</div>
+<p>I like to imagine the loss as a valley, with the weights as a ball I am trying
+to roll down to the bottom.</p>
+<p>If the learning rate is too small, the ball takes tiny, cautious steps. It is
+going the right way, it just never actually arrives before I run out of patience
+(or epochs). The model is not broken. I simply did not give it enough room to
+get there.</p>
+<p>If the learning rate is too big, the ball takes a running jump, sails clean over
+the bottom of the valley, and smacks into the far wall. The loss bounces around,
+stalls, or blows up into <code class="docutils literal notranslate"><span class="pre">nan</span></code>.</p>
+<p>And if it is about right, the loss drops fast and then settles. Which is the
+dream.</p>
+<p>The catch is that the right step size depends on the shape of that valley, and
+the shape changes with the optimiser, the architecture, even the data. That is
+the part I wanted to test.</p>
+</section>
+<section id="how-i-set-it-up">
+<h2>How I set it up<a class="headerlink" href="#how-i-set-it-up" title="Link to this heading">#</a></h2>
+<p>I built everything on top of the class framework: a small CNN trained on
+Fashion-MNIST with PyTorch Lightning. The full notebook is linked at the bottom
+if you want to rerun any of this.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Thing</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Dataset</strong></p></td>
+<td><p>Fashion-MNIST (28×28 greyscale, 10 clothing classes)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Training images</strong></p></td>
+<td><p>A fixed 10,000-image subset, to keep runs short</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Validation images</strong></p></td>
+<td><p>6,000 held-out images (10% of the full training set)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Model</strong></p></td>
+<td><p>2 conv blocks (32, 64 channels) plus a 128-unit dense layer, about 422k parameters</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Batch size</strong></p></td>
+<td><p>64</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Epochs</strong></p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Seed</strong></p></td>
+<td><p>42 (fixes the weights, the data split and the shuffling)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The <strong>validation set</strong>, those 6,000 images the model never trains on, is how I
+compare runs. I only peek at the test set once, right at the very end. And the
+one rule I held myself to: in each sweep, the only thing I change is the learning
+rate. Everything else stays frozen. I spread the five values on a log scale, so
+each one is 10 times the last (<code class="docutils literal notranslate"><span class="pre">1e-5</span></code>, <code class="docutils literal notranslate"><span class="pre">1e-4</span></code>, <code class="docutils literal notranslate"><span class="pre">1e-3</span></code>, and so on) instead of
+evenly spaced. The reason is that learning rates work in relative terms: what
+matters is the ratio between two values, not the gap between them. Going from
+0.001 to 0.01 multiplies the step size by 10 and changes training completely,
+while 0.051 to 0.060 is only about a 1.2 times change and barely does anything.
+So powers of ten cover far more useful ground for the same number of runs.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lr_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-1</span><span class="p">]</span>
+<span class="n">lr_results</span> <span class="o">=</span> <span class="n">run_configs</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;lr=</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">}</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">lr_values</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Before any of the sweeps, I trained a plain baseline on the full dataset with
+the default <code class="docutils literal notranslate"><span class="pre">lr=1e-3</span></code>, just so I had something healthy to compare against.</p>
+<figure class="align-default" id="baseline">
+<a class="reference internal image-reference" href="_images/fig_baseline.png"><img alt="Training and validation loss and accuracy per epoch for the baseline model, both curves falling and levelling off." src="_images/fig_baseline.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">The baseline (<code class="docutils literal notranslate"><span class="pre">lr=1e-3</span></code>, Adam, full data). Both losses fall and the gap between
+train and validation stays small, which is what a well-behaved learning rate
+looks like. Validation accuracy climbs from 89.2% to 91.5%.</span><a class="headerlink" href="#baseline" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="what-happened">
+<h2>What happened<a class="headerlink" href="#what-happened" title="Link to this heading">#</a></h2>
+<section id="with-adam-the-sweet-spot-is-1e-3">
+<h3>With Adam, the sweet spot is <code class="docutils literal notranslate"><span class="pre">1e-3</span></code><a class="headerlink" href="#with-adam-the-sweet-spot-is-1e-3" title="Link to this heading">#</a></h3>
+<p>Below are the learning curves for all five rates. It helps to read them as
+<em>curves</em>, not just final scores, since the shape shows how each run got to where
+it ended up.</p>
+<figure class="align-default" id="lr-curves">
+<a class="reference internal image-reference" href="_images/fig_lr_curves.png"><img alt="Validation loss and validation accuracy per epoch for learning rates from 1e-5 to 1e-1." src="_images/fig_lr_curves.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Validation loss (left) and accuracy (right) per epoch, with Adam. Green
+(<code class="docutils literal notranslate"><span class="pre">1e-3</span></code>) wins. Blue (<code class="docutils literal notranslate"><span class="pre">1e-5</span></code>) is still crawling upward when training runs out.
+Purple (<code class="docutils literal notranslate"><span class="pre">1e-1</span></code>) jumps straight to a bad spot and more or less stays there.</span><a class="headerlink" href="#lr-curves" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Learning rate</p></th>
+<th class="head"><p>Best validation accuracy</p></th>
+<th class="head"><p>Final validation loss</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">1e-5</span></code></p></td>
+<td><p>77.5%</p></td>
+<td><p>0.707</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">1e-4</span></code></p></td>
+<td><p>85.5%</p></td>
+<td><p>0.394</p></td>
+</tr>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">1e-3</span></code></strong></p></td>
+<td><p><strong>87.3%</strong></p></td>
+<td><p><strong>0.360</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">1e-2</span></code></p></td>
+<td><p>85.1%</p></td>
+<td><p>0.418</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">1e-1</span></code></p></td>
+<td><p>68.8%</p></td>
+<td><p>0.844</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><em>Table 1. The learning-rate sweep with Adam. Accuracy peaks in the middle and
+drops off on both sides.</em></p>
+<p>If I plot the final loss against the learning rate on a log axis, I get this
+clean little U. A sweet spot in the middle, a cliff on either side. Too small
+and too big are both bad, just for opposite reasons.</p>
+<figure class="align-default" id="ushape">
+<a class="reference internal image-reference" href="_images/fig_lr_ushape.png"><img alt="Final validation loss plotted against learning rate on a log x-axis, forming a U shape." src="_images/fig_lr_ushape.png" style="width: 70%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">The learning-rate “U”. Final validation loss bottoms out at <code class="docutils literal notranslate"><span class="pre">1e-3</span></code> and shoots
+up if the rate is 100 times too small or 100 times too large.</span><a class="headerlink" href="#ushape" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="swap-in-sgd-and-the-sweet-spot-jumps">
+<h3>Swap in SGD and the sweet spot jumps<a class="headerlink" href="#swap-in-sgd-and-the-sweet-spot-jumps" title="Link to this heading">#</a></h3>
+<p>This one surprised me. I ran the exact same sweep with plain SGD (momentum 0.9)
+instead of Adam. If the best learning rate were just a property of the problem,
+it would have stayed put at <code class="docutils literal notranslate"><span class="pre">1e-3</span></code>. It did not.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Learning rate</p></th>
+<th class="head"><p>Adam</p></th>
+<th class="head"><p>SGD + momentum</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">1e-5</span></code></p></td>
+<td><p>77.5%</p></td>
+<td><p>59.1%</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">1e-4</span></code></p></td>
+<td><p>85.5%</p></td>
+<td><p>76.5%</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">1e-3</span></code></p></td>
+<td><p><strong>87.3%</strong></p></td>
+<td><p>84.8%</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">1e-2</span></code></p></td>
+<td><p>85.1%</p></td>
+<td><p><strong>86.2%</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">1e-1</span></code></p></td>
+<td><p>68.8%</p></td>
+<td><p>81.0%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><em>Table 2. Same sweep, two optimisers. Adam peaks at <code class="docutils literal notranslate"><span class="pre">1e-3</span></code>, SGD peaks at <code class="docutils literal notranslate"><span class="pre">1e-2</span></code>,
+a full order of magnitude higher, and SGD handles the big <code class="docutils literal notranslate"><span class="pre">1e-1</span></code> far better.</em></p>
+<p>Adam quietly rescales the step for every weight on its own, so it is happy at a
+smaller nominal rate. SGD uses the raw gradient, so it needs bigger steps to
+cover the same ground. And look at <code class="docutils literal notranslate"><span class="pre">1e-1</span></code>: that rate already wrecked Adam (down
+to 68.8%), but SGD is still cruising at 81.0%. So that learning rate I grabbed
+off an Adam tutorial? It would have been a bad call for SGD.</p>
+</section>
+<section id="turn-off-batch-norm-and-the-whole-thing-gets-jumpy">
+<h3>Turn off batch norm and the whole thing gets jumpy<a class="headerlink" href="#turn-off-batch-norm-and-the-whole-thing-gets-jumpy" title="Link to this heading">#</a></h3>
+<p>Last one. I kept Adam but switched <strong>batch normalisation</strong> off. Batch norm
+rescales the activations inside the network, and one of its quiet side jobs is
+keeping training calm when the learning rate is a little off. This plot shows me
+what it was saving me from.</p>
+<figure class="align-default" id="bn">
+<a class="reference internal image-reference" href="_images/fig_bn_sensitivity.png"><img alt="Best validation accuracy versus learning rate, with and without batch norm; the no-batch-norm line collapses to 10% at the largest rate." src="_images/fig_bn_sensitivity.png" style="width: 75%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Best validation accuracy against learning rate, with and without batch norm.
+Without it (orange), <code class="docutils literal notranslate"><span class="pre">lr=1e-1</span></code> collapses to 10.5%, basically random guessing on
+10 classes, while the batch-norm model (blue) still limps along at 68.8%.</span><a class="headerlink" href="#bn" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>With batch norm, accuracy across the five rates spans about 18 points. Without
+it, that spread explodes to 75. The same <code class="docutils literal notranslate"><span class="pre">1e-1</span></code> that only bruised the batch-norm
+model completely flatlines the plain one: 10.5% accuracy, which on ten classes
+is no better than guessing, and the loss stuck at <span class="math notranslate nohighlight">\(\ln 10 \approx 2.303\)</span>, the
+number you land on when a model has learned nothing at all. Batch norm did not
+change <em>which</em> rate was best (still <code class="docutils literal notranslate"><span class="pre">1e-3</span></code> either way). It just widened the range
+of rates I could get away with.</p>
+</section>
+</section>
+<section id="so-what-do-i-make-of-all-this">
+<h2>So what do I make of all this<a class="headerlink" href="#so-what-do-i-make-of-all-this" title="Link to this heading">#</a></h2>
+<p>Did any of it match the theory? For the most part, yes. The U-shape is the
+textbook “too small, just right, too large” story drawn out in real numbers. The
+collapse at <code class="docutils literal notranslate"><span class="pre">1e-1</span></code> is the “steps so big the model never settles” failure mode,
+live. And the optimiser result fits too: Adam normalises its own step and SGD
+does not, so a rate that suits one should not suit the other, and the best value
+slid over by about the 10 times I would have guessed.</p>
+<p>The part I keep coming back to is that this is what made me stop repeating “just
+use <code class="docutils literal notranslate"><span class="pre">1e-3</span></code>” without thinking. The best learning rate is tangled up with the
+optimiser and the architecture, so I cannot tune it once and reuse that number
+after changing everything around it.</p>
+<p>Could this just be noise? Fair question, I worried about that too, so I checked.
+I reran the baseline with three different random seeds and the accuracies landed
+within about 1 point of each other. Every gap I called “big” up there (the
+18-point spread, the 10 times optimiser shift, the 75-point blowup) is many
+times larger than that. So these are real effects, not luck.</p>
+<p>I should be honest about the limits. I ran this small and cheap on purpose:
+10,000 images, 4 epochs, so each run finishes in seconds. Great for spotting
+trends, less great for exact winners. On the full 60,000-image
+set, or with a longer budget, the best value could shift, since slower rates
+often win once you give them more time. I also only tested powers of ten, so the
+true best rate for SGD is somewhere between <code class="docutils literal notranslate"><span class="pre">1e-2</span></code> and <code class="docutils literal notranslate"><span class="pre">1e-1</span></code> and I did not pin
+it down. And this is one architecture on one dataset, so please take the pattern
+as the lesson, not the exact digits.</p>
+</section>
+<section id="what-i-am-taking-away">
+<h2>What I am taking away<a class="headerlink" href="#what-i-am-taking-away" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Tune the learning rate first, on a log scale.</strong> Try powers of ten, find the
+U, then zoom in around the winner. Most of my “why won’t this train” moments
+died right here.</p></li>
+<li><p><strong>A good learning rate does not travel.</strong> Change the optimiser and you retune:
+Adam wanted <code class="docutils literal notranslate"><span class="pre">1e-3</span></code>, SGD wanted <code class="docutils literal notranslate"><span class="pre">1e-2</span></code>, same exact model.</p></li>
+<li><p><strong>Batch norm buys forgiveness, not a free lunch.</strong> It widens the band of safe
+rates and saves you from total collapse, but it will not pick the rate for
+you.</p></li>
+</ol>
+</section>
+<section id="where-this-came-from">
+<h2>Where this came from<a class="headerlink" href="#where-this-came-from" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The notebook, if you want to rerun everything:</strong>
+<a class="reference external" href="https://github.com/tagalogclark123-cmyk/ds-portfolio-tagalog/blob/main/Hyperparameters.ipynb"><code class="docutils literal notranslate"><span class="pre">Hyperparameters.ipynb</span></code></a>
+in this repo. Every figure above comes straight out of it.</p></li>
+<li><p>The class starter notebook on hyperparameters with PyTorch Lightning, which my
+framework is built on.</p></li>
+<li><p>Ioffe, S. &amp; Szegedy, C. (2015). <em>Batch Normalization: Accelerating Deep
+Network Training by Reducing Internal Covariate Shift.</em>
+<a class="reference external" href="https://arxiv.org/abs/1502.03167">arXiv:1502.03167</a></p></li>
+<li><p>Kingma, D. &amp; Ba, J. (2015). <em>Adam: A Method for Stochastic Optimization.</em>
+<a class="reference external" href="https://arxiv.org/abs/1412.6980">arXiv:1412.6980</a></p></li>
+<li><p>Goodfellow, I., Bengio, Y. &amp; Courville, A. (2016). <em>Deep Learning</em>, Chapter 8
+(Optimization). <a class="reference external" href="https://www.deeplearningbook.org/">deeplearningbook.org</a></p></li>
+<li><p>Xiao, H., Rasul, K. &amp; Vollgraf, R. (2017). <em>Fashion-MNIST.</em>
+<a class="reference external" href="https://arxiv.org/abs/1708.07747">arXiv:1708.07747</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Image_Classification_Pretrained_Models.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Laboratory Task: Image Classification Using Pre-trained Models</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-the-learning-rate-actually-does">What the learning rate actually does</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-i-set-it-up">How I set it up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-happened">What happened</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#with-adam-the-sweet-spot-is-1e-3">With Adam, the sweet spot is <code class="docutils literal notranslate"><span class="pre">1e-3</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#swap-in-sgd-and-the-sweet-spot-jumps">Swap in SGD and the sweet spot jumps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#turn-off-batch-norm-and-the-whole-thing-gets-jumpy">Turn off batch norm and the whole thing gets jumpy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#so-what-do-i-make-of-all-this">So what do I make of all this</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-i-am-taking-away">What I am taking away</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-this-came-from">Where this came from</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Clark James E. Tagalog
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p class="footer-note">
+  Built with <a href="https://jupyterbook.org">Jupyter Book</a> ·
+  <a href="https://github.com/tagalogclark123-cmyk/ds-portfolio-tagalog">Source on GitHub</a>
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
