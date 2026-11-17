@@ -41,3 +41,8 @@ parts:
     chapters:
       - file: Image_Classification_Pretrained_Models
         title: "Lab 7 · Image Classification with Pretrained Models"
+
+  - caption: Deep Learning Blog
+    chapters:
+      - file: Blog_Learning_Rate
+        title: "The Learning Rate Is Not a Magic Number"
